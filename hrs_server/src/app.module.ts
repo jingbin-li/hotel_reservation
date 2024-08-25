@@ -8,6 +8,8 @@ import { EmployeeModule } from './modules/employee/employee.module';
 import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { GqlAuthGuardGuard } from './common/gql-auth-guard/gql-auth-guard.guard';
 
 @Module({
   imports: [
@@ -21,6 +23,12 @@ import { UsersModule } from './modules/users/users.module';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: GqlAuthGuardGuard,
+    },
+  ],
 })
 export class AppModule {}

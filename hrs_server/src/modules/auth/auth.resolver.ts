@@ -1,18 +1,26 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Mutation,
+  Query,
+  Resolver,
+  GqlExecutionContext,
+} from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { Auth } from './models/auth.model';
 import { LoginDto } from './dtos/login.dto';
-import { LoginModel } from './models/login.model';
+import { Public } from 'src/common/decorators/no-auth.decorator';
 
 @Resolver()
 export class AuthResolver {
   constructor(private authSvc: AuthService) {}
 
   @Query((returns) => String)
-  async generateToken() {
+  async testQuery() {
     return '';
   }
 
+  @Public()
   @Mutation(() => Auth)
   async login(@Args('loginData') loginData: LoginDto) {
     const signInData = { username: 'john', password: 'changeme' };

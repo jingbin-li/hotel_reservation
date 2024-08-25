@@ -7,7 +7,7 @@ type Auth {
 }
 
 type Query {
-  generateToken: String!
+  testQuery: String!
 }
 
 type Mutation {
