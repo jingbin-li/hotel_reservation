@@ -7,6 +7,7 @@ import { GuestModule } from './modules/guest/guest.module';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './modules/auth/auth.module';
     AuthModule,
     GuestModule,
     EmployeeModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,14 +1,21 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { Auth } from './models/auth.model';
+import { LoginDto } from './dtos/login.dto';
+import { LoginModel } from './models/login.model';
 
-@Resolver(() => Auth)
+@Resolver()
 export class AuthResolver {
   constructor(private authSvc: AuthService) {}
 
-  @Query((returns) => Auth)
+  @Query((returns) => String)
   async generateToken() {
-    const id = 1;
-    return this.authSvc.generateToken(id);
+    return '';
+  }
+
+  @Mutation(() => Auth)
+  async login(@Args('loginData') loginData: LoginDto) {
+    const signInData = { username: 'john', password: 'changeme' };
+    return this.authSvc.signIn(signInData.username, signInData.password);
   }
 }

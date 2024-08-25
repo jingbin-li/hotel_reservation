@@ -3,9 +3,18 @@
 # ------------------------------------------------------
 
 type Auth {
-  token: String!
+  access_token: String!
 }
 
 type Query {
-  generateToken: Auth!
+  generateToken: String!
+}
+
+type Mutation {
+  login(loginData: LoginDto!): Auth!
+}
+
+input LoginDto {
+  username: String!
+  password: String!
 }
