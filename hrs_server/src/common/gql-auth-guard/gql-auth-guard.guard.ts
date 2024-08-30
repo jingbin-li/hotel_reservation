@@ -10,7 +10,6 @@ import { jwtConstants } from '../constants/constants';
 import { IS_PUBLIC_KEY } from '../decorators/no-auth.decorator';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { ErrorHandler } from '@nestjs/common/interfaces';
 
 @Injectable()
 export class GqlAuthGuardGuard implements CanActivate {

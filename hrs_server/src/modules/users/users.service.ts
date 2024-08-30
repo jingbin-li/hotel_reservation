@@ -14,4 +14,8 @@ export class UsersService {
   async createUser(userInfo: UserInfo) {
     return this.db.createUser(userInfo);
   }
+
+  async findByPhoneNumber(phoneNumber: string) {
+    return this.db.findByPhoneNum(phoneNumber);
+  }
 }

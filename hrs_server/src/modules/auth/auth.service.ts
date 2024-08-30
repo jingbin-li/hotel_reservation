@@ -1,10 +1,15 @@
 import { cryptoConstants } from '@/common/constants/constants';
-import { INVALID_USER_EXCEPTION } from '@/common/exceptions/invalidUser.exception';
-import { Injectable } from '@nestjs/common';
+import { INVALID_USER_EXCEPTION } from '@/common/exceptions/InvalidUser.exception';
+import {
+  HttpException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { createHmac } from 'crypto';
 import { UserInfo } from '../users/dtos/userInfo.dto';
 import { UsersService } from '../users/users.service';
+import { INVALID_PHONE_NUMBER } from '@/common/exceptions/InvalidPhoneNumber.exception';
 export type User = any;
 
 @Injectable()
@@ -29,6 +34,13 @@ export class AuthService {
 
   async createAccount(userData: UserInfo) {
     const encryptedText = await this.cryptoAccount(userData.password);
+    const phoneNumber = await this.usersService.findByPhoneNumber(
+      userData.phoneNumber,
+    );
+
+    if (phoneNumber.length !== 0) {
+      throw INVALID_PHONE_NUMBER;
+    }
 
     const account = await this.usersService.createUser({
       ...userData,

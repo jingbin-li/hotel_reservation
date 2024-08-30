@@ -34,6 +34,10 @@ export class UsersDB {
     return this.userModel.find({ phoneNumber, password });
   }
 
+  async findByPhoneNum(phoneNumber: string) {
+    return this.userModel.find({ phoneNumber });
+  }
+
   async removeUsers(ids: string[]): Promise<DeleteResult> {
     return this.userModel.deleteMany({
       _id: {
