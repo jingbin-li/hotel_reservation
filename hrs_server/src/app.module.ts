@@ -8,8 +8,9 @@ import { EmployeeModule } from './modules/employee/employee.module';
 import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { GqlAuthGuardGuard } from './common/gql-auth-guard/gql-auth-guard.guard';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -17,6 +18,9 @@ import { GqlAuthGuardGuard } from './common/gql-auth-guard/gql-auth-guard.guard'
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
+    MongooseModule.forRoot(
+      'mongodb://root:root@127.0.0.1:27017/hrs_db?authSource=admin',
+    ),
     AuthModule,
     GuestModule,
     EmployeeModule,

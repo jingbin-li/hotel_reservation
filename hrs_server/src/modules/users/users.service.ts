@@ -1,22 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { UsersDB } from './db';
+import { UserInfo } from './dtos/userInfo.dto';
 export type User = any;
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(private db: UsersDB) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findByPhoneAndPwd(phoneNumber: string, pwd: string) {
+    return this.db.findByPhoneAndPwd(phoneNumber, pwd);
+  }
+
+  async createUser(userInfo: UserInfo) {
+    return this.db.createUser(userInfo);
   }
 }

@@ -3,7 +3,10 @@
 # ------------------------------------------------------
 
 type Auth {
+  id: String!
+  username: String!
   access_token: String!
+  phoneNumber: String!
 }
 
 type Query {
@@ -12,9 +15,18 @@ type Query {
 
 type Mutation {
   login(loginData: LoginDto!): Auth!
+  createAccount(userInfo: UserInfo!): Auth!
 }
 
 input LoginDto {
-  username: String!
+  phoneNumber: String!
   password: String!
+}
+
+input UserInfo {
+  name: String!
+  email: String
+  phoneNumber: String!
+  password: String!
+  role: String
 }
