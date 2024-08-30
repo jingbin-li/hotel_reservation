@@ -17,11 +17,7 @@ export class AuthResolver {
   @Public()
   @Mutation(() => Auth)
   async login(@Args('loginData') loginData: LoginDto) {
-    try {
-      return this.authSvc.signIn(loginData.phoneNumber, loginData.password);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.FORBIDDEN);
-    }
+    return this.authSvc.signIn(loginData.phoneNumber, loginData.password);
   }
 
   @Public()

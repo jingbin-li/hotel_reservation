@@ -2,7 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 
 class InvalidUserException extends HttpException {
   constructor() {
-    super('Invalid account', HttpStatus.BAD_REQUEST);
+    super('Invalid account', HttpStatus.FORBIDDEN);
   }
 }
 
