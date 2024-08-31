@@ -5,8 +5,25 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { CREATE_ACCOUNT } from "../../graphql/queries/users";
 
 function SignUp() {
+  const [createAccount, { data, loading, error }] = useMutation(CREATE_ACCOUNT);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    phoneNumber: "",
+    password: "",
+  });
+
+  const handleSubmit = () => {
+    console.log(userInfo);
+    createAccount({ variables: { ...userInfo } });
+
+    console.log(data);
+  };
+
   return (
     <main>
       <CssBaseline />
@@ -33,13 +50,22 @@ function SignUp() {
         </div>
         <FormControl>
           <FormLabel>Full name</FormLabel>
-          <Input name="username"></Input>
-
+          <Input
+            name="name"
+            type="text"
+            value={userInfo.name}
+            onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+          />
+        </FormControl>
+        <FormControl>
           <FormLabel>Phone number</FormLabel>
           <Input
             // html input attribute
-            name="email"
-            type="email"
+            name="phoneNumber"
+            type="text"
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, phoneNumber: e.target.value })
+            }
           />
         </FormControl>
         <FormControl>
@@ -48,9 +74,15 @@ function SignUp() {
             // html input attribute
             name="password"
             type="password"
+            // value={userInfo.password}
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, password: e.target.value })
+            }
           />
         </FormControl>
-        <Button sx={{ mt: 1 /* margin top */ }}>Sign up</Button>
+        <Button sx={{ mt: 1 /* margin top */ }} onClick={handleSubmit}>
+          Sign up
+        </Button>
       </Sheet>
     </main>
   );
