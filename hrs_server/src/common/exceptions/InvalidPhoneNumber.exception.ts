@@ -2,7 +2,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 
 class InvalidPhoneNumber extends InternalServerErrorException {
   constructor() {
-    super('The phone number is already in use');
+    super('INVALID_PH_NUM');
   }
 }
 

@@ -1,10 +1,12 @@
 import {
   ApolloClient,
+  ApolloLink,
   createHttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 
 export class GqlClient {
   private static client: ApolloClient<NormalizedCacheObject>;
@@ -18,8 +20,12 @@ export class GqlClient {
       uri: "http://localhost:3000/graphql",
     });
 
+    const errorLink = onError(({ graphQLErrors }) => {
+      console.log(graphQLErrors);
+    });
+
     const authLink = setContext((_, { headers }) => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       return {
         headers: {
           ...headers,
@@ -29,7 +35,7 @@ export class GqlClient {
     });
 
     GqlClient.client = new ApolloClient({
-      link: authLink.concat(httpLink),
+      link: ApolloLink.from([authLink, errorLink, httpLink]),
       cache: new InMemoryCache(),
       connectToDevTools: true,
     });

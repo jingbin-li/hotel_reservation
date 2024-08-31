@@ -6,8 +6,23 @@ import Input from "@mui/joy/Input";
 import Link from "@mui/joy/Link";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
+import { LOGIN } from "../../graphql/queries/users";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
 
 export default function SignIn() {
+  const [createAccount, { data, loading, error }] = useMutation(LOGIN);
+  const [userInfo, setUserInfo] = useState({
+    phoneNumber: "",
+    password: "",
+  });
+
+  const handleSubmit = () => {
+    console.log(userInfo);
+    createAccount({ variables: { ...userInfo } });
+
+    console.log(data);
+  };
   return (
     <main>
       <CssBaseline />
@@ -36,8 +51,11 @@ export default function SignIn() {
           <FormLabel>Phone number</FormLabel>
           <Input
             // html input attribute
-            name="email"
-            type="email"
+            name="phoneNumber"
+            type="text"
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, phoneNumber: e.target.value })
+            }
           />
         </FormControl>
         <FormControl>
@@ -46,9 +64,14 @@ export default function SignIn() {
             // html input attribute
             name="password"
             type="password"
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, password: e.target.value })
+            }
           />
         </FormControl>
-        <Button sx={{ mt: 1 /* margin top */ }}>Log in</Button>
+        <Button sx={{ mt: 1 /* margin top */ }} onClick={handleSubmit}>
+          Log in
+        </Button>
         <Typography
           endDecorator={<Link href="/sign-up">Sign up</Link>}
           sx={{ fontSize: "sm", alignSelf: "center" }}
