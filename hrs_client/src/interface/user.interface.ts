@@ -1,4 +1,4 @@
 export interface IUser {
-  name: string;
+  username: string;
   access_token: string;
 }

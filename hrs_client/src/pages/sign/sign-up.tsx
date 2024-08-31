@@ -15,7 +15,9 @@ import NumericFormatAdapter from "../../components/numeric-format-adapter";
 import { Navigate } from "react-router-dom";
 
 function SignUp() {
-  const [createAccount, { data, error }] = useMutation<IUser>(CREATE_ACCOUNT);
+  const [createAccount, { data, error }] = useMutation<{
+    createAccount: IUser;
+  }>(CREATE_ACCOUNT);
 
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -29,15 +31,15 @@ function SignUp() {
   });
 
   useEffect(() => {
-    if (data) {
+    if (data && data.createAccount?.access_token) {
       setErrorInfo({ isInValid: false, message: "" });
-      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("access_token", data.createAccount.access_token);
     }
 
     if (error) {
       const message = error.message;
       setErrorInfo({
-        isInValid: message === error.message,
+        isInValid: message === "INVALID_PH_NUM",
         message: "Invalid phone number!!!",
       });
     }

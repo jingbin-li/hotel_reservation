@@ -3,26 +3,43 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
-import Link from "@mui/joy/Link";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
 import { LOGIN } from "../../graphql/queries/users";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
+import NumericFormatAdapter from "../../components/numeric-format-adapter";
+import { InfoOutlined } from "@mui/icons-material";
+import { FormHelperText, Link } from "@mui/joy";
+import { IUser } from "../../interface/user.interface";
 
 export default function SignIn() {
-  const [createAccount, { data, loading, error }] = useMutation(LOGIN);
+  const [createAccount, { data, error }] = useMutation<{ login: IUser }>(LOGIN);
   const [userInfo, setUserInfo] = useState({
     phoneNumber: "",
     password: "",
   });
 
-  const handleSubmit = () => {
-    console.log(userInfo);
-    createAccount({ variables: { ...userInfo } });
+  const [errorInfo, setErrorInfo] = useState({
+    isInValid: false,
+    message: "",
+  });
 
+  useEffect(() => {
     console.log(data);
-  };
+    if (data && data.login.access_token) {
+      setErrorInfo({ isInValid: false, message: "" });
+      localStorage.setItem("access_token", data.login.access_token);
+    }
+
+    if (error) {
+      const message = error.message;
+      setErrorInfo({
+        isInValid: message === "INVALID_ACCOUNT",
+        message: "Wrong Password!!!",
+      });
+    }
+  }, [data, error]);
   return (
     <main>
       <CssBaseline />
@@ -41,37 +58,53 @@ export default function SignIn() {
         }}
         variant="outlined"
       >
-        <div>
-          <Typography level="h4" component="h1">
-            <b>Welcome!</b>
-          </Typography>
-          <Typography level="body-sm">Sign in to continue.</Typography>
-        </div>
-        <FormControl>
-          <FormLabel>Phone number</FormLabel>
-          <Input
-            // html input attribute
-            name="phoneNumber"
-            type="text"
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, phoneNumber: e.target.value })
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (userInfo.phoneNumber && userInfo.password) {
+              createAccount({ variables: { ...userInfo } });
+
+              return;
             }
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Password</FormLabel>
-          <Input
-            // html input attribute
-            name="password"
-            type="password"
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, password: e.target.value })
-            }
-          />
-        </FormControl>
-        <Button sx={{ mt: 1 /* margin top */ }} onClick={handleSubmit}>
-          Log in
-        </Button>
+          }}
+        >
+          <div>
+            <Typography level="h4" component="h1">
+              <b>Welcome!</b>
+            </Typography>
+            <Typography level="body-sm">Sign in to continue.</Typography>
+          </div>
+          <FormControl required>
+            <FormLabel>Phone number</FormLabel>
+            <Input
+              // html input attribute
+              name="phoneNumber"
+              slotProps={{ input: { component: NumericFormatAdapter } }}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, phoneNumber: e.target.value })
+              }
+            />
+          </FormControl>
+          <FormControl error={errorInfo.isInValid} required>
+            <FormLabel>Password</FormLabel>
+            <Input
+              // html input attribute
+              name="password"
+              type="password"
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, password: e.target.value })
+              }
+            />
+            {errorInfo.isInValid && (
+              <FormHelperText>
+                <InfoOutlined /> {errorInfo.message}
+              </FormHelperText>
+            )}
+          </FormControl>
+          <Button type="submit" sx={{ mt: 1, width: "100%" }}>
+            Sign in
+          </Button>
+        </form>
         <Typography
           endDecorator={<Link href="/sign-up">Sign up</Link>}
           sx={{ fontSize: "sm", alignSelf: "center" }}
