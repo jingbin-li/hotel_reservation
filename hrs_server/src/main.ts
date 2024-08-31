@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { GraphQLExceptionsFilter } from './common/exceptions/GqlException.filter';
+import { LoggingInterceptor } from './common/interceptors/ logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new GraphQLExceptionsFilter());
+  app.useGlobalInterceptors(new LoggingInterceptor());
   app.enableCors({
     origin: 'http://localhost:5173', // 允许的来源
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 允许的HTTP方法
