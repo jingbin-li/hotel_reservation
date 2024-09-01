@@ -12,4 +12,18 @@ main{
   display: flex;
   align-items: center;
   height: 100%;
+  width: 100vh;
+}
+
+.container {
+  padding: 24px;
+  width: 100vh;
+}
+
+h1{
+  text-align: center;
+}
+
+.theme-container {
+  display: flex;
 }

@@ -4,11 +4,12 @@ import { NumericFormat, NumericFormatProps } from "react-number-format";
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
+  maxLength: number;
 }
 
 const NumericFormatAdapter = React.forwardRef<NumericFormatProps, CustomProps>(
   function NumericFormatAdapter(props, ref) {
-    const { onChange, ...other } = props;
+    const { onChange, maxLength, ...other } = props;
 
     return (
       <NumericFormat
@@ -23,6 +24,7 @@ const NumericFormatAdapter = React.forwardRef<NumericFormatProps, CustomProps>(
           });
         }}
         valueIsNumericString
+        maxLength={maxLength}
       />
     );
   }

@@ -83,7 +83,9 @@ export default function SignIn() {
             <Input
               // html input attribute
               name="phoneNumber"
-              slotProps={{ input: { component: NumericFormatAdapter } }}
+              slotProps={{
+                input: { component: NumericFormatAdapter, maxLength: 11 },
+              }}
               onChange={(e) =>
                 setUserInfo({ ...userInfo, phoneNumber: e.target.value })
               }
