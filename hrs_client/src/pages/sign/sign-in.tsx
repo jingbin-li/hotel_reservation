@@ -12,6 +12,7 @@ import NumericFormatAdapter from "../../components/numeric-format-adapter";
 import { InfoOutlined } from "@mui/icons-material";
 import { FormHelperText, Link } from "@mui/joy";
 import { IUser } from "../../interface/user.interface";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [createAccount, { data, error }] = useMutation<{ login: IUser }>(LOGIN);
@@ -25,11 +26,14 @@ export default function SignIn() {
     message: "",
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     console.log(data);
     if (data && data.login.access_token) {
       setErrorInfo({ isInValid: false, message: "" });
       localStorage.setItem("access_token", data.login.access_token);
+      navigate("/guest");
     }
 
     if (error) {
