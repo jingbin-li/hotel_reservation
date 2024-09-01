@@ -19,6 +19,12 @@ import { formatError } from './common/exceptions/formatError';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       formatError,
+      context: ({ req }) => {
+        const [type, token] = req.headers.authorization.split(' ') ?? [];
+
+        const tokken = type === 'Bearer' ? token : undefined;
+        return { tokken };
+      },
     }),
     MongooseModule.forRoot(
       'mongodb://root:root@127.0.0.1:27017/hrs_db?authSource=admin',
