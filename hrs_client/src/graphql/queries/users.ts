@@ -1,4 +1,3 @@
-// src/graphql/queries.ts
 import { gql } from "@apollo/client";
 
 export const CREATE_ACCOUNT = gql`
@@ -17,7 +16,7 @@ export const CREATE_ACCOUNT = gql`
   }
 `;
 export const LOGIN = gql`
-  mutation CreateAccount($phoneNumber: String!, $password: String!) {
+  mutation LoginAccount($phoneNumber: String!, $password: String!) {
     login(loginData: { phoneNumber: $phoneNumber, password: $password }) {
       id
       access_token

@@ -6,7 +6,18 @@ import { ReservationDto } from './dtos/reservation.dto';
 export class GuestService {
   constructor(private db: GuestDB) {}
   async createRes(res: ReservationDto) {
-    return this.db.create(res);
+    const raw = await this.getRes(res.user_id);
+    console.log(raw);
+    if (!raw) {
+      return this.db.create(res);
+    }
+
+    const acknowledged = await this.updateRes(raw._id.toString(), res);
+    if (!acknowledged) {
+      throw new Error('INTERNAL_SERVER_ERROR');
+    }
+
+    return raw;
   }
 
   async updateRes(id: string, res: ReservationDto) {

@@ -13,9 +13,15 @@ import { InfoOutlined } from "@mui/icons-material";
 import { FormHelperText, Link } from "@mui/joy";
 import { IUser } from "../../interface/user.interface";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/store";
+import { setAuth } from "../../store/auth-slice";
+import { setUser } from "../../store/user-slice";
 
 export default function SignIn() {
-  const [createAccount, { data, error }] = useMutation<{ login: IUser }>(LOGIN);
+  const dispatch = useDispatch();
+
+  const [login, { data, error }] = useMutation<{ login: IUser }>(LOGIN);
   const [userInfo, setUserInfo] = useState({
     phoneNumber: "",
     password: "",
@@ -34,6 +40,8 @@ export default function SignIn() {
       setErrorInfo({ isInValid: false, message: "" });
       localStorage.setItem("access_token", data.login.access_token);
       navigate("/guest");
+      // dispatch(setAuth(true));
+      dispatch(setUser({ ...data.login }));
     }
 
     if (error) {
@@ -66,7 +74,7 @@ export default function SignIn() {
           onSubmit={(event) => {
             event.preventDefault();
             if (userInfo.phoneNumber && userInfo.password) {
-              createAccount({ variables: { ...userInfo } });
+              login({ variables: { ...userInfo } });
 
               return;
             }

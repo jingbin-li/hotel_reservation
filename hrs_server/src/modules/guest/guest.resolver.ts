@@ -4,7 +4,6 @@ import { ReservationDto } from './dtos/reservation.dto';
 import { GuestService } from './guest.service';
 import { Public } from '@/common/decorators/no-auth.decorator';
 
-@Public()
 @Resolver()
 export class GuestResolver {
   constructor(private guestSvc: GuestService) {}
@@ -21,12 +20,12 @@ export class GuestResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteRes(@Args('string') id: string) {
+  async deleteRes(@Args('id') id: string) {
     return this.guestSvc.deleteRes(id);
   }
 
   @Query(() => Reservation)
-  async getRes(@Args('string') id: string) {
+  async getRes(@Args('user_id') id: string) {
     return this.guestSvc.getRes(id);
   }
 }

@@ -1,10 +1,13 @@
 import { useColorScheme } from "@mui/joy/styles";
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
-import { router } from "./routes/router";
-import { FormLabel, Stack, Switch, Typography } from "@mui/joy";
+import { Switch, Typography } from "@mui/joy";
 import { DarkMode, Label } from "@mui/icons-material";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+import createRoutes from "./routes/router";
+import { BrowserRouter, useRoutes } from "react-router-dom";
 
 function App() {
   const [toggleDarkMode, setToggleDarkMode] = useState(true);
@@ -15,26 +18,16 @@ function App() {
     setMode(theme);
   };
 
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
+  const routes = createRoutes(isAuthenticated);
+  const routing = useRoutes(routes);
+
   return (
     <>
-      {/* <Stack
-        className="theme-container"
-        sx={{ display: "flex", gap: 1, mx: 3, mt: 2, justifyContent: "end" }}
-      >
-        <FormLabel>Theme</FormLabel>
-        <Switch
-          size="lg"
-          slotProps={{
-            input: { "aria-label": "Dark mode" },
-            thumb: {
-              children: <DarkMode />,
-            },
-          }}
-          checked={toggleDarkMode}
-          onChange={toggleDarkTheme}
-          sx={{ "--Switch-thumbSize": "16px" }}
-        />
-      </Stack> */}
+      {routing}
       <Typography
         component="label"
         sx={{ display: "flex", gap: 1, mx: 3, mt: 2, justifyContent: "end" }}
@@ -55,9 +48,13 @@ function App() {
       >
         Theme
       </Typography>
-      <RouterProvider router={router}></RouterProvider>
+      {/* <RouterProvider router={router}></RouterProvider> */}
     </>
   );
 }
-
-export default App;
+const AppWrapper: React.FC = () => (
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+export default AppWrapper;

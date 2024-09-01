@@ -18,7 +18,7 @@ export class GuestDB {
   }
 
   update(id: string, res: ReservationDto) {
-    return this.reservationModel.updateOne({ _id: id }, { $set: res });
+    return this.reservationModel.updateOne({ _id: id || null }, { $set: res });
   }
 
   delete(id: string): Promise<IDeleteResult> {

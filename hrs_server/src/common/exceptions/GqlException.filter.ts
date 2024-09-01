@@ -14,7 +14,6 @@ export class GraphQLExceptionsFilter implements ExceptionFilter {
     const gqlHost = GqlArgumentsHost.create(host);
     const ctx = gqlHost.getContext();
     const request = ctx.req;
-    console.log(111);
     const status = exception.getStatus();
     const message = exception.message;
 
