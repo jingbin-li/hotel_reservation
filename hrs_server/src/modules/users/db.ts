@@ -3,18 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserInfo } from './dtos/userInfo.dto';
-import { Cat } from '@/common/schemas/cat.schema';
-interface DeleteResult {
-  acknowledged: boolean;
-  deletedCount: number;
-}
+import { IDeleteResult } from '@/common/interface/delete-result';
 
 @Injectable()
 export class UsersDB {
-  constructor(
-    @InjectModel(User.name) private userModel: Model<User>,
-    @InjectModel(Cat.name) private catModel: Model<Cat>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async createUser(userInfo: UserInfo) {
     const createdUser = new this.userModel(userInfo);
@@ -38,7 +31,7 @@ export class UsersDB {
     return this.userModel.find({ phoneNumber });
   }
 
-  async removeUsers(ids: string[]): Promise<DeleteResult> {
+  async removeUsers(ids: string[]): Promise<IDeleteResult> {
     return this.userModel.deleteMany({
       _id: {
         $in: ids,

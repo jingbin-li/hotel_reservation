@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Reservation {
+  _id: String
+  user_id: String!
+  contactName: String!
+  contactNumber: String!
+  resDate: String!
+  resTime: String!
+  guestNum: Float!
+  specReq: String
+}
+
 type Auth {
   id: String!
   username: String!
@@ -11,11 +22,15 @@ type Auth {
 
 type Query {
   testQuery: String!
+  getRes(string: String!): Reservation!
 }
 
 type Mutation {
   login(loginData: LoginDto!): Auth!
   createAccount(userInfo: UserInfo!): Auth!
+  createRes(reservationDto: ReservationDto!): Reservation!
+  updateRes(id: String, reservationDto: ReservationDto!): Boolean!
+  deleteRes(string: String!): Boolean!
 }
 
 input LoginDto {
@@ -29,4 +44,15 @@ input UserInfo {
   phoneNumber: String!
   password: String!
   role: String
+}
+
+input ReservationDto {
+  id: String
+  user_id: String!
+  contactName: String!
+  contactNumber: String!
+  resDate: String!
+  resTime: String!
+  guestNum: Float!
+  specReq: String!
 }

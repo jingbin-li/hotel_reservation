@@ -2,13 +2,22 @@ import { Module } from '@nestjs/common';
 import { GuestService } from './guest.service';
 import { GuestDB } from './db';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '@/common/schemas/user.schema';
+import { GuestResolver } from './guest.resolver';
+import {
+  Reservation,
+  ReservationSchema,
+} from '@/common/schemas/reservation.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      {
+        name: Reservation.name,
+        schema: ReservationSchema,
+      },
+    ]),
   ],
   controllers: [],
-  providers: [GuestService, GuestDB],
+  providers: [GuestService, GuestDB, GuestResolver],
 })
 export class GuestModule {}
