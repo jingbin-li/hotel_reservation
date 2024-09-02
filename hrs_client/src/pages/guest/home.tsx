@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useMutation, useQuery } from "@apollo/client";
+import { InfoOutlined } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -13,19 +16,15 @@ import {
 } from "@mui/joy";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NumericFormatAdapter from "../../components/numeric-format-adapter";
-import { InfoOutlined } from "@mui/icons-material";
 import {
   CREATE_RES,
-  UPDATE_RES,
   DELETE_RES,
   GET_RES,
 } from "../../graphql/queries/reservation";
-import { useMutation, useQuery } from "@apollo/client";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { IReservation } from "../../interface/reservation.interface";
-import AlertVariousStates from "../../components/alert-common";
+import { RootState } from "../../store/store";
 
 export default function BasicTable() {
   const sx = { py: 1 };
@@ -64,7 +63,6 @@ export default function BasicTable() {
     const isBeforeNow = dayjs(target).isBefore(dayjs());
     setBeforeNow(isBeforeNow);
   }, [resInfo]);
-  const [alertInfo, setAlertInfo] = useState({ type: "", message: "" });
 
   useEffect(() => {
     if (data) {

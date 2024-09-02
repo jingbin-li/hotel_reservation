@@ -7,5 +7,10 @@ export class EmployeeService {
 
   async getAllRes() {
     const res = await this.db.getReservations();
+    if (!res) {
+      return [];
+    }
+
+    return res;
   }
 }

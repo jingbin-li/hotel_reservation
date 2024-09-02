@@ -3,6 +3,8 @@ export interface IReservation {
 
   user_id: string;
 
+  user_name: string;
+
   contactName: string;
 
   contactNumber: string;

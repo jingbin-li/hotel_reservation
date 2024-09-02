@@ -12,5 +12,7 @@ export class EmployeeDB {
   async getReservations() {
     const res = await this.reservationModel.find();
     console.log(res);
+
+    return res;
   }
 }

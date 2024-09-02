@@ -1,5 +1,5 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Reservation } from './models/reservation.model';
+import { Reservation } from '../../common/models/reservation.model';
 import { ReservationDto } from './dtos/reservation.dto';
 import { GuestService } from './guest.service';
 import { Public } from '@/common/decorators/no-auth.decorator';
@@ -34,10 +34,12 @@ export class GuestResolver {
     return this.guestSvc.deleteRes(id);
   }
 
-  @Query(() => Reservation)
+  @Query(() => Reservation, { nullable: true })
   async getRes(@Context() context: any) {
     const userId = this.getUserId(context);
-    return this.guestSvc.getRes(userId);
+    const x = await this.guestSvc.getRes(userId);
+
+    return x;
   }
 
   private getUserId(context) {

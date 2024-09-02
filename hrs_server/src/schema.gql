@@ -5,6 +5,7 @@
 type Reservation {
   _id: String
   user_id: String
+  user_name: String
   contactName: String!
   contactNumber: String!
   resDate: String!
@@ -22,7 +23,8 @@ type Auth {
 
 type Query {
   testQuery: String!
-  getRes: Reservation!
+  getRes: Reservation
+  getAllRes: [Reservation!]!
 }
 
 type Mutation {

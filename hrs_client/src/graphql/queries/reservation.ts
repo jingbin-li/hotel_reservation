@@ -107,3 +107,18 @@ export const GET_RES = gql`
     }
   }
 `;
+export const GET_ALL_RES = gql`
+  query GetAllRes {
+    getAllRes {
+      _id
+      user_id
+      user_name
+      contactName
+      contactNumber
+      resDate
+      resTime
+      guestNum
+      specReq
+    }
+  }
+`;
