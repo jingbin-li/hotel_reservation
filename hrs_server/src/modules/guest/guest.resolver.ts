@@ -2,7 +2,6 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Reservation } from '../../common/models/reservation.model';
 import { ReservationDto } from './dtos/reservation.dto';
 import { GuestService } from './guest.service';
-import { Public } from '@/common/decorators/no-auth.decorator';
 import { JwtService } from '@nestjs/jwt';
 import { RolesGuard } from '@/common/gql-auth-guard/role-guerd';
 import { UseGuards } from '@nestjs/common';
@@ -21,7 +20,6 @@ export class GuestResolver {
     @Args('reservationDto') reservationDto: ReservationDto,
     @Context() ctx: any,
   ) {
-    console.log('ctx=======>', ctx.user);
     const { sub, username, role } = ctx.user;
 
     return this.guestSvc.createRes(reservationDto, {

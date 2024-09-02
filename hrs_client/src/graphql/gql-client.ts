@@ -22,6 +22,12 @@ export class GqlClient {
 
     const errorLink = onError(({ graphQLErrors }) => {
       console.log(graphQLErrors);
+      const deniedError = graphQLErrors?.filter(
+        (x) => x.message === "Access denied"
+      );
+      if (deniedError?.length !== 0) {
+        alert("Access denied");
+      }
     });
 
     const authLink = setContext((_, { headers }) => {

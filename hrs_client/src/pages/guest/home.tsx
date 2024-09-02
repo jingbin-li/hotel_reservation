@@ -93,7 +93,9 @@ export default function BasicTable() {
 
       alert("Success");
     }
-  }, [deleteResData]);
+
+    console.log(d_error);
+  }, [deleteResData, d_error]);
 
   useEffect(() => {
     if (createResData?.createRes) {
