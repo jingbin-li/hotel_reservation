@@ -16,9 +16,10 @@ export class GuestResolver {
     @Args('reservationDto') reservationDto: ReservationDto,
     @Context() ctx: any,
   ) {
-    const userId = this.getUserId(ctx);
+    console.log('ctx=======>', ctx.user);
+    const { sub, username } = ctx.user;
 
-    return this.guestSvc.createRes(reservationDto, userId);
+    return this.guestSvc.createRes(reservationDto, { username, user_id: sub });
   }
   @Mutation(() => Boolean)
   async updateRes(
@@ -40,9 +41,6 @@ export class GuestResolver {
   }
 
   private getUserId(context) {
-    const { sub } = this.jwtService.verify(context.tokken);
-    console.log(sub);
-
-    return sub;
+    return context?.user?.sub;
   }
 }

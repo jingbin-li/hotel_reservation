@@ -12,6 +12,9 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { GqlAuthGuardGuard } from './common/gql-auth-guard/gql-auth-guard.guard';
 import { MongooseModule } from '@nestjs/mongoose';
 import { formatError } from './common/exceptions/formatError';
+import { AuthService } from './modules/auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from './common/constants/constants';
 
 @Module({
   imports: [
@@ -19,11 +22,18 @@ import { formatError } from './common/exceptions/formatError';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       formatError,
-      context: ({ req }) => {
+      context: async ({ req }) => {
         const [type, token] = req.headers.authorization.split(' ') ?? [];
 
         const tokken = type === 'Bearer' ? token : undefined;
-        return { tokken };
+        const authSvc = new AuthService(
+          null,
+          new JwtService({ secret: jwtConstants.secret }),
+        );
+
+        const user = await authSvc.getPayload(token);
+
+        return { tokken, user };
       },
     }),
     MongooseModule.forRoot(

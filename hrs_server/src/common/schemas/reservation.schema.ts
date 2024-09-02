@@ -9,6 +9,9 @@ export class Reservation {
   user_id: string;
 
   @Prop()
+  user_name: string;
+
+  @Prop()
   contactName: string;
 
   @Prop()

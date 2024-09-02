@@ -1,4 +1,4 @@
-import { cryptoConstants } from '@/common/constants/constants';
+import { cryptoConstants, jwtConstants } from '@/common/constants/constants';
 import { INVALID_USER_EXCEPTION } from '@/common/exceptions/InvalidUser.exception';
 import {
   HttpException,
@@ -53,6 +53,14 @@ export class AuthService {
     );
 
     return { id: account._id.toString(), username: account.name, access_token };
+  }
+
+  public async getPayload(token: string) {
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: jwtConstants.secret,
+    });
+
+    return payload;
   }
 
   private async cryptoAccount(pwd: string) {
