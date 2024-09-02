@@ -94,8 +94,8 @@ export const DELETE_RES = gql`
 `;
 
 export const GET_RES = gql`
-  query GetRes($id: String!) {
-    getRes(user_id: $id) {
+  query GetRes {
+    getRes {
       _id
       user_id
       contactName
