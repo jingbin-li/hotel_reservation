@@ -5,6 +5,7 @@ import ProtectedRoute from "./protected-route";
 import Home from "../pages/guest/home";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import EmpHome from "../pages/employee/emp-home";
 
 const createRoutes = (isAuthenticated: boolean): RouteObject[] => {
   return [
@@ -20,16 +21,6 @@ const createRoutes = (isAuthenticated: boolean): RouteObject[] => {
       path: "/sign-up",
       element: <SignUp></SignUp>,
     },
-    // {
-    //   path: "/home",
-    //   element: <Navigate to="/guest"></Navigate>,
-    //   children: [
-    //     {
-    //       path: "/guest",
-    //       element: <Home></Home>,
-    //     },
-    //   ],
-    // },
     {
       path: "/guest",
       element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
@@ -37,6 +28,16 @@ const createRoutes = (isAuthenticated: boolean): RouteObject[] => {
         {
           path: "",
           element: <Home></Home>,
+        },
+      ],
+    },
+    {
+      path: "/emp",
+      element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+      children: [
+        {
+          path: "",
+          element: <EmpHome></EmpHome>,
         },
       ],
     },
