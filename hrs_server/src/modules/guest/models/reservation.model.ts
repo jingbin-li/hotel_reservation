@@ -5,7 +5,7 @@ export class Reservation {
   @Field({ nullable: true })
   _id: string;
 
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   user_id: string;
 
   @Field()

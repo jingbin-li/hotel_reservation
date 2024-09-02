@@ -5,23 +5,29 @@ import { ReservationDto } from './dtos/reservation.dto';
 @Injectable()
 export class GuestService {
   constructor(private db: GuestDB) {}
-  async createRes(res: ReservationDto) {
-    const raw = await this.getRes(res.user_id);
+  async createRes(res: ReservationDto, userId: string) {
+    const raw = await this.getRes(userId);
     console.log(raw);
     if (!raw) {
-      return this.db.create(res);
+      return this.db.create({ ...res, user_id: userId });
     }
 
-    const acknowledged = await this.updateRes(raw._id.toString(), res);
+    console.log('=======>', userId);
+    const acknowledged = await this.updateRes(raw._id.toString(), {
+      ...res,
+      user_id: userId,
+    });
     if (!acknowledged) {
       throw new Error('INTERNAL_SERVER_ERROR');
     }
 
-    return raw;
+    return { ...res, _id: raw._id };
   }
 
   async updateRes(id: string, res: ReservationDto) {
     const result = await this.db.update(id, res);
+
+    console.log('00000000', result);
 
     return result.acknowledged;
   }

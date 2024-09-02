@@ -18,6 +18,7 @@ export class GuestDB {
   }
 
   update(id: string, res: ReservationDto) {
+    console.log(res);
     return this.reservationModel.updateOne({ _id: id || null }, { $set: res });
   }
 

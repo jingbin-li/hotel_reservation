@@ -12,8 +12,13 @@ export class GuestResolver {
     private jwtService: JwtService,
   ) {}
   @Mutation(() => Reservation)
-  async createRes(@Args('reservationDto') reservationDto: ReservationDto) {
-    return this.guestSvc.createRes(reservationDto);
+  async createRes(
+    @Args('reservationDto') reservationDto: ReservationDto,
+    @Context() ctx: any,
+  ) {
+    const userId = this.getUserId(ctx);
+
+    return this.guestSvc.createRes(reservationDto, userId);
   }
   @Mutation(() => Boolean)
   async updateRes(
@@ -30,8 +35,14 @@ export class GuestResolver {
 
   @Query(() => Reservation)
   async getRes(@Context() context: any) {
-    const { sub } = this.jwtService.verify(context.tokken);
+    const userId = this.getUserId(context);
+    return this.guestSvc.getRes(userId);
+  }
 
-    return this.guestSvc.getRes(sub);
+  private getUserId(context) {
+    const { sub } = this.jwtService.verify(context.tokken);
+    console.log(sub);
+
+    return sub;
   }
 }

@@ -14,8 +14,6 @@ import { FormHelperText, Link } from "@mui/joy";
 import { IUser } from "../../interface/user.interface";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
-import { setAuth } from "../../store/auth-slice";
 import { setUser } from "../../store/user-slice";
 
 export default function SignIn() {

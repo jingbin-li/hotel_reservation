@@ -4,7 +4,7 @@
 
 type Reservation {
   _id: String
-  user_id: String!
+  user_id: String
   contactName: String!
   contactNumber: String!
   resDate: String!
