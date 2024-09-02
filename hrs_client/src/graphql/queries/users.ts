@@ -5,13 +5,20 @@ export const CREATE_ACCOUNT = gql`
     $name: String!
     $phoneNumber: String!
     $password: String!
+    $role: String!
   ) {
     createAccount(
-      userInfo: { name: $name, phoneNumber: $phoneNumber, password: $password }
+      userInfo: {
+        name: $name
+        phoneNumber: $phoneNumber
+        password: $password
+        role: $role
+      }
     ) {
       id
       access_token
       username
+      role
     }
   }
 `;
@@ -21,6 +28,7 @@ export const LOGIN = gql`
       id
       access_token
       username
+      role
     }
   }
 `;

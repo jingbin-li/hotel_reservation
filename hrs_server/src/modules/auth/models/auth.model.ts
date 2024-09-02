@@ -10,4 +10,6 @@ export class Auth {
   access_token: string;
   @Field()
   phoneNumber: string;
+  @Field()
+  role: 'guest' | 'employee';
 }

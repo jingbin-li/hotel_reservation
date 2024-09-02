@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Auth {
+  id: String!
+  username: String!
+  access_token: String!
+  phoneNumber: String!
+  role: String!
+}
+
 type Reservation {
   _id: String
   user_id: String
@@ -12,13 +20,6 @@ type Reservation {
   resTime: String!
   guestNum: Float!
   specReq: String
-}
-
-type Auth {
-  id: String!
-  username: String!
-  access_token: String!
-  phoneNumber: String!
 }
 
 type Query {

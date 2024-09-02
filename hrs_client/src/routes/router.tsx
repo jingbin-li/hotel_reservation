@@ -1,11 +1,9 @@
-import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
+import EmpHome from "../pages/employee/emp-home";
+import Home from "../pages/guest/home";
 import SignIn from "../pages/sign/sign-in";
 import SignUp from "../pages/sign/sign-up";
 import ProtectedRoute from "./protected-route";
-import Home from "../pages/guest/home";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import EmpHome from "../pages/employee/emp-home";
 
 const createRoutes = (isAuthenticated: boolean): RouteObject[] => {
   return [

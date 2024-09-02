@@ -1,23 +1,13 @@
 import { useColorScheme } from "@mui/joy/styles";
-import { RouterProvider } from "react-router-dom";
-import "./App.css";
-import { Switch, Typography } from "@mui/joy";
-import { DarkMode, Label } from "@mui/icons-material";
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "./store";
-import createRoutes from "./routes/router";
 import { BrowserRouter, useRoutes } from "react-router-dom";
+import "./App.css";
+import createRoutes from "./routes/router";
+import { RootState } from "./store/store";
 
 function App() {
-  const [toggleDarkMode, setToggleDarkMode] = useState(true);
   const { mode, setMode } = useColorScheme();
-  const toggleDarkTheme = () => {
-    setToggleDarkMode(!toggleDarkMode);
-    const theme = toggleDarkMode ? "light" : "dark";
-    setMode(theme);
-  };
-
+  setMode("light");
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
@@ -28,7 +18,7 @@ function App() {
   return (
     <>
       {routing}
-      <Typography
+      {/* <Typography
         component="label"
         sx={{ display: "flex", gap: 1, mx: 3, mt: 2, justifyContent: "end" }}
         endDecorator={
@@ -47,7 +37,7 @@ function App() {
         }
       >
         Theme
-      </Typography>
+      </Typography> */}
       {/* <RouterProvider router={router}></RouterProvider> */}
     </>
   );

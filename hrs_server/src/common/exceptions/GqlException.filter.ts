@@ -20,7 +20,8 @@ export class GraphQLExceptionsFilter implements ExceptionFilter {
     return new GraphQLError(message, {
       extensions: {
         code: status,
-        path: gqlHost.getInfo().fieldName || request.originalUrl || request.url,
+        path:
+          gqlHost?.getInfo()?.fieldName || request?.originalUrl || request?.url,
         name: exception.name,
       },
     });

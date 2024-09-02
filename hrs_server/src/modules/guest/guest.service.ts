@@ -7,13 +7,14 @@ export class GuestService {
   constructor(private db: GuestDB) {}
   async createRes(
     res: ReservationDto,
-    userInfo: { user_id: string; username: string },
+    userInfo: { user_id: string; username: string; role: 'employee' | 'guest' },
   ) {
     const raw = await this.getRes(userInfo.user_id);
     const toSaved = {
       ...res,
       user_id: userInfo.user_id,
       user_name: userInfo.username,
+      role: userInfo.role,
     };
 
     if (!raw) {

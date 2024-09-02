@@ -11,5 +11,5 @@ export class UserInfo {
   @Field()
   password: string;
   @Field({ nullable: true })
-  role: 'employee' | 'gust';
+  role: 'employee' | 'guest';
 }

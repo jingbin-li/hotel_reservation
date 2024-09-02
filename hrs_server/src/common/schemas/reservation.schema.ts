@@ -28,6 +28,9 @@ export class Reservation {
 
   @Prop()
   specReq: string;
+
+  @Prop()
+  role: string;
 }
 
 export const ReservationSchema = SchemaFactory.createForClass(Reservation);

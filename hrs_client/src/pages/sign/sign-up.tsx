@@ -1,3 +1,6 @@
+import { useMutation } from "@apollo/client";
+import { InfoOutlined } from "@mui/icons-material";
+import { FormHelperText } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import CssBaseline from "@mui/joy/CssBaseline";
 import FormControl from "@mui/joy/FormControl";
@@ -6,13 +9,15 @@ import Input from "@mui/joy/Input";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
 import { useEffect, useState } from "react";
-import { useMutation } from "@apollo/client";
+import NumericFormatAdapter from "../../components/numeric-format-adapter";
 import { CREATE_ACCOUNT } from "../../graphql/queries/users";
 import { IUser } from "../../interface/user.interface";
-import { FormHelperText } from "@mui/joy";
-import { InfoOutlined } from "@mui/icons-material";
-import NumericFormatAdapter from "../../components/numeric-format-adapter";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+const ROLE_MAP = {
+  guest: "guest",
+  employee: "emp",
+};
 
 function SignUp() {
   const [createAccount, { data, error }] = useMutation<{
@@ -30,10 +35,13 @@ function SignUp() {
     message: "",
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (data && data.createAccount?.access_token) {
       setErrorInfo({ isInValid: false, message: "" });
       localStorage.setItem("access_token", data.createAccount.access_token);
+      navigate(`/${ROLE_MAP[data.createAccount.role]}`);
     }
 
     if (error) {
@@ -67,7 +75,7 @@ function SignUp() {
           onSubmit={(event) => {
             event.preventDefault();
             if (userInfo.name && userInfo.phoneNumber && userInfo.password) {
-              createAccount({ variables: { ...userInfo } });
+              createAccount({ variables: { ...userInfo, role: "guest" } });
 
               return;
             }

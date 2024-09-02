@@ -4,24 +4,34 @@ import { ReservationDto } from './dtos/reservation.dto';
 import { GuestService } from './guest.service';
 import { Public } from '@/common/decorators/no-auth.decorator';
 import { JwtService } from '@nestjs/jwt';
+import { RolesGuard } from '@/common/gql-auth-guard/role-guerd';
+import { UseGuards } from '@nestjs/common';
+import { Roles } from '@/common/decorators/role.decortator';
 
 @Resolver()
+@UseGuards(RolesGuard)
 export class GuestResolver {
   constructor(
     private guestSvc: GuestService,
     private jwtService: JwtService,
   ) {}
   @Mutation(() => Reservation)
+  @Roles('guest')
   async createRes(
     @Args('reservationDto') reservationDto: ReservationDto,
     @Context() ctx: any,
   ) {
     console.log('ctx=======>', ctx.user);
-    const { sub, username } = ctx.user;
+    const { sub, username, role } = ctx.user;
 
-    return this.guestSvc.createRes(reservationDto, { username, user_id: sub });
+    return this.guestSvc.createRes(reservationDto, {
+      username,
+      user_id: sub,
+      role,
+    });
   }
   @Mutation(() => Boolean)
+  @Roles('guest')
   async updateRes(
     @Args('id', { nullable: true }) id: string,
     @Args('reservationDto') reservationDto: ReservationDto,
@@ -30,11 +40,13 @@ export class GuestResolver {
   }
 
   @Mutation(() => Boolean)
+  @Roles('guest')
   async deleteRes(@Args('id') id: string) {
     return this.guestSvc.deleteRes(id);
   }
 
   @Query(() => Reservation, { nullable: true })
+  @Roles('guest')
   async getRes(@Context() context: any) {
     const userId = this.getUserId(context);
     const x = await this.guestSvc.getRes(userId);

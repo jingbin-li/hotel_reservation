@@ -1,3 +1,6 @@
+import { useMutation } from "@apollo/client";
+import { InfoOutlined } from "@mui/icons-material";
+import { FormHelperText, Link } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import CssBaseline from "@mui/joy/CssBaseline";
 import FormControl from "@mui/joy/FormControl";
@@ -5,20 +8,18 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
-import { LOGIN } from "../../graphql/queries/users";
 import { useEffect, useState } from "react";
-import { useMutation } from "@apollo/client";
-import NumericFormatAdapter from "../../components/numeric-format-adapter";
-import { InfoOutlined } from "@mui/icons-material";
-import { FormHelperText, Link } from "@mui/joy";
-import { IUser } from "../../interface/user.interface";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../../store/user-slice";
+import NumericFormatAdapter from "../../components/numeric-format-adapter";
+import { LOGIN } from "../../graphql/queries/users";
+import { IUser } from "../../interface/user.interface";
+
+const ROLE_MAP = {
+  guest: "guest",
+  employee: "emp",
+};
 
 export default function SignIn() {
-  const dispatch = useDispatch();
-
   const [login, { data, error }] = useMutation<{ login: IUser }>(LOGIN);
   const [userInfo, setUserInfo] = useState({
     phoneNumber: "",
@@ -37,9 +38,8 @@ export default function SignIn() {
     if (data && data.login.access_token) {
       setErrorInfo({ isInValid: false, message: "" });
       localStorage.setItem("access_token", data.login.access_token);
-      navigate("/guest");
+      navigate(`/${ROLE_MAP[data.login.role]}`);
       // dispatch(setAuth(true));
-      dispatch(setUser({ ...data.login }));
     }
 
     if (error) {

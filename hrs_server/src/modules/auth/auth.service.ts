@@ -28,7 +28,11 @@ export class AuthService {
 
     return {
       ...userAccount,
-      access_token: this.generateToken(userAccount.username, userAccount.id),
+      access_token: this.generateToken(
+        userAccount.username,
+        userAccount.id,
+        userAccount.role,
+      ),
     };
   }
 
@@ -50,9 +54,15 @@ export class AuthService {
     const access_token = await this.generateToken(
       account.name,
       account._id.toString(),
+      account.role,
     );
 
-    return { id: account._id.toString(), username: account.name, access_token };
+    return {
+      id: account._id.toString(),
+      username: account.name,
+      access_token,
+      role: account.role,
+    };
   }
 
   public async getPayload(token: string) {
@@ -70,8 +80,12 @@ export class AuthService {
     return hamc.digest('hex');
   }
 
-  private async generateToken(username: string, userId: string) {
-    const payload = { sub: userId, username };
+  private async generateToken(
+    username: string,
+    userId: string,
+    role: 'guest' | 'employee',
+  ) {
+    const payload = { sub: userId, username, role };
 
     return this.jwtService.signAsync(payload);
   }
@@ -93,6 +107,7 @@ export class AuthService {
       id: userAccount._id.toString(),
       username: userAccount.name,
       phoneNumber: userAccount.phoneNumber,
+      role: userAccount.role,
     };
   }
 }
