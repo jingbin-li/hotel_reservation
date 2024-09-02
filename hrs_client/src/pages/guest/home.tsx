@@ -25,9 +25,9 @@ import {
 } from "../../graphql/queries/reservation";
 import { IReservation } from "../../interface/reservation.interface";
 import { RootState } from "../../store/store";
+import ReservationForm from "../../components/res-form";
 
 export default function BasicTable() {
-  const sx = { py: 1 };
   const defaultResInfo = {
     _id: "",
     contactName: "",
@@ -66,7 +66,16 @@ export default function BasicTable() {
 
   useEffect(() => {
     if (data) {
-      setResInfo(data.getRes);
+      const defaultInfo = {
+        _id: "",
+        contactName: "",
+        contactNumber: "",
+        resDate: "",
+        resTime: "",
+        guestNum: 0,
+        specReq: "",
+      };
+      setResInfo(data.getRes || defaultInfo);
     }
   }, [data]);
 
@@ -97,13 +106,29 @@ export default function BasicTable() {
     rsvDateTimeValidation();
   });
 
+  const handleReset = () => {
+    setResInfo({ ...defaultResInfo });
+  };
+
+  const handleSubmit = () => {
+    createRes({ variables: { ...resInfo, user_id: user.id } });
+  };
+
+  const handleDeleteSubmit = () => {
+    deleteRes({
+      variables: {
+        id: resInfo._id,
+      },
+    });
+  };
+
   return (
     <div className="container">
       <CssBaseline />
       <Sheet>
         <Card>
           <Typography level="h1">Customer Reservation System</Typography>
-          <form
+          {/* <form
             onSubmit={(e) => {
               e.preventDefault();
               if (beforeNow) {
@@ -221,50 +246,17 @@ export default function BasicTable() {
             >
               Reset Form
             </Button>
-          </form>
+          </form> */}
 
-          <Card variant="soft">
-            <Typography level="h2">Your Reservation</Typography>
-            <Box>
-              <strong>Reservation ID:</strong> {resInfo._id}
-            </Box>
-            <Box>
-              <strong>Name:</strong> {resInfo.contactName}
-            </Box>
-            <Box>
-              <strong>Contact:</strong> {resInfo.contactNumber}
-            </Box>
-            <Box>
-              <strong>Date:</strong> {resInfo.resDate}
-            </Box>
-            <Box>
-              <strong>Time:</strong> {resInfo.resTime}
-            </Box>
-            <Box>
-              <strong>Guests:</strong> {resInfo.guestNum}
-            </Box>
-            <Box>
-              <strong>Special Requests:</strong> {resInfo.specReq}
-            </Box>
-            <Box>
-              <Button
-                sx={{
-                  my: 2,
-                }}
-                color="danger"
-                onClick={() => {
-                  console.log(resInfo);
-                  deleteRes({
-                    variables: {
-                      id: resInfo._id,
-                    },
-                  });
-                }}
-              >
-                Cancel Reservation
-              </Button>
-            </Box>
-          </Card>
+          <ReservationForm
+            resInfo={resInfo}
+            setResInfo={setResInfo}
+            beforeNow={beforeNow}
+            rsvDateTimeValidation={rsvDateTimeValidation}
+            onSubmit={handleSubmit}
+            onReset={handleReset}
+            onDeleteRes={handleDeleteSubmit}
+          />
         </Card>
       </Sheet>
     </div>
