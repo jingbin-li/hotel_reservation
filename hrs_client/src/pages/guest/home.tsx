@@ -25,6 +25,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { IReservation } from "../../interface/reservation.interface";
+import AlertVariousStates from "../../components/alert-common";
 
 export default function BasicTable() {
   const sx = { py: 1 };
@@ -48,14 +49,13 @@ export default function BasicTable() {
   }>(DELETE_RES);
 
   const user = useSelector((state: RootState) => state.user).user;
-  const { data, error: r_erro } = useQuery<{ getRes: IReservation }>(GET_RES, {
+  const { data, error: r_error } = useQuery<{ getRes: IReservation }>(GET_RES, {
     variables: {
       id: user.id,
     },
   });
   const [resInfo, setResInfo] = useState(defaultResInfo);
   const [beforeNow, setBeforeNow] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   const rsvDateTimeValidation = useCallback(() => {
     const target = `${resInfo.resDate} ${resInfo.resTime}`;
     if (!resInfo.resDate || !resInfo.resTime) {
@@ -67,41 +67,11 @@ export default function BasicTable() {
     const isBeforeNow = dayjs(target).isBefore(dayjs());
     setBeforeNow(isBeforeNow);
   }, [resInfo]);
-
-  // useEffect(() => {
-  //   rsvDateTimeValidation();
-  //   if (data && !isLoaded) {
-  //     console.log(123);
-  //     setResInfo(data.getRes);
-  //     setIsLoaded(true);
-  //   }
-
-  //   if (updateResData?.updateRes) {
-  //     alert("Success");
-  //   }
-
-  //   if (deleteResData?.deleteRes) {
-  //     setResInfo({ ...defaultResInfo });
-  //   }
-
-  //   if (createResData?.createRes) {
-  //     setResInfo(createResData.createRes);
-  //   }
-  // }, [
-  //   rsvDateTimeValidation,
-  //   data,
-  //   updateResData,
-  //   isLoaded,
-  //   deleteResData,
-  //   defaultResInfo,
-  //   createResData,
-  // ]);
+  const [alertInfo, setAlertInfo] = useState({ type: "", message: "" });
 
   useEffect(() => {
     if (data) {
-      console.log(123);
       setResInfo(data.getRes);
-      setIsLoaded(true);
     }
   }, [data]);
 
@@ -123,7 +93,7 @@ export default function BasicTable() {
         specReq: "",
       });
     }
-  }, [deleteResData, defaultResInfo]);
+  }, [deleteResData]);
 
   useEffect(() => {
     if (createResData?.createRes) {
