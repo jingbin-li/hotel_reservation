@@ -41,9 +41,6 @@ export default function BasicTable() {
   const [createRes, { data: createResData, error: c_error }] = useMutation<{
     createRes: IReservation;
   }>(CREATE_RES);
-  const [updateRes, { data: updateResData, error: u_error }] = useMutation<{
-    updateRes: boolean;
-  }>(UPDATE_RES);
   const [deleteRes, { data: deleteResData, error: d_error }] = useMutation<{
     deleteRes: boolean;
   }>(DELETE_RES);
@@ -76,12 +73,6 @@ export default function BasicTable() {
   }, [data]);
 
   useEffect(() => {
-    if (updateResData?.updateRes) {
-      alert("Success");
-    }
-  }, [updateResData]);
-
-  useEffect(() => {
     if (deleteResData?.deleteRes) {
       setResInfo({
         _id: "",
@@ -92,12 +83,15 @@ export default function BasicTable() {
         guestNum: 0,
         specReq: "",
       });
+
+      alert("Success");
     }
   }, [deleteResData]);
 
   useEffect(() => {
     if (createResData?.createRes) {
       setResInfo({ ...createResData.createRes });
+      alert("Success");
     }
   }, [createResData]);
 
@@ -258,26 +252,6 @@ export default function BasicTable() {
               <Button
                 sx={{
                   my: 2,
-                }}
-                onClick={() => {
-                  if (!resInfo._id) {
-                    return;
-                  }
-                  updateRes({
-                    variables: {
-                      ...resInfo,
-                      user_id: user.id,
-                      id: resInfo._id,
-                    },
-                  });
-                }}
-              >
-                Update Reservation
-              </Button>
-              <Button
-                sx={{
-                  my: 2,
-                  mx: 2,
                 }}
                 color="danger"
                 onClick={() => {
