@@ -22,11 +22,19 @@ export class GqlClient {
 
     const errorLink = onError(({ graphQLErrors }) => {
       console.log(graphQLErrors);
-      const deniedError = graphQLErrors?.filter(
+      const deniedError = graphQLErrors?.find(
         (x) => x.message === "Access denied"
       );
-      if (deniedError?.length !== 0) {
+      if (deniedError) {
         alert("Access denied");
+      }
+
+      const unauthorized = graphQLErrors?.find(
+        (x) => x.message === "Unauthorized"
+      );
+
+      if (unauthorized) {
+        alert("Unauthorized");
       }
     });
 
