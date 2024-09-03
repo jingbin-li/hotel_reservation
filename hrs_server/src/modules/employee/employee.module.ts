@@ -7,6 +7,7 @@ import {
   Reservation,
   ReservationSchema,
 } from '@/common/schemas/reservation.schema';
+import { EmployeeController } from './employee.controller';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import {
     ]),
   ],
   providers: [EmployeeService, EmployeeResolver, EmployeeDB],
-  controllers: [],
+  controllers: [EmployeeController],
 })
 export class EmployeeModule {}

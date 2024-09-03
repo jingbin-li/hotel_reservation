@@ -41,6 +41,25 @@ function EmpHome() {
     setResInfo(data?.getAllRes || []);
     console.log(data);
   }, [data]);
+
+  useEffect(() => {
+    // 调用API获取数据
+    fetch("/employee/reservations")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setResInfo(data);
+      })
+      .catch((error) => {
+        // alert("Error");
+      });
+  }, []);
+
   const handleSubmit = () => {};
   const handleReset = () => {};
   const handleDeleteSubmit = () => {};
