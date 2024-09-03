@@ -22,7 +22,7 @@ Project Overview
 
 Due to time constraints, the project still has several shortcomings. On the employee side, only the UI and GET API calls have been completed. This was my first time using React, so the code is somewhat disorganized, and there are several defects. The backend also shows signs of being rushed; for example, the directory structure is messy. Additionally, there were issues I hadn’t anticipated before starting, such as whether user information should be retrieved from the frontend or the token during validation. I chose the former, which led to illogical validation processes that took significant time to correct later. I also failed to prioritize tasks effectively, resulting in slower development progress.
 
-## 对于项目的一些想法
+## Some thoughts (I wanted to implement but haven’t had the time to yet)
 
 In a reservation system, certain operations can be time-consuming or require integration with third-party services (e.g., sending confirmation SMS or emails). By utilizing a message queue, these tasks can be queued and processed asynchronously by background workers, preventing the main thread from being blocked and improving system responsiveness. A delay queue could also be implemented to handle events after a certain period.
 
