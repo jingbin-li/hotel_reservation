@@ -10,6 +10,7 @@ Project Overview
 ![data flow diagram](./hrs_res_desc.jpg)
 
 - Task List
+
   1. Guests should able to make reservations.✅
   2. Guests should able to update their reservations.✅
   3. Guests should able to cancel their reservations.✅
@@ -17,6 +18,8 @@ Project Overview
   5. Restaurant employees should able to mark a reservation as completed or canceled.❌
   6. Restaurant employees should able to browse all the reservations by date and status.❌
   7. Restaurant employees should able to check reservation detail.✅
+
+Due to time constraints, the project still has several shortcomings. On the employee side, only the UI and GET API calls have been completed.
 
 ## Some thoughts (I wanted to implement but haven’t had the time to yet)
 
