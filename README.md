@@ -40,18 +40,10 @@ docker run -d \
   -e MONGO_INITDB_ROOT_USERNAME=root \
   -e MONGO_INITDB_ROOT_PASSWORD=root \
   -e MONGO_INITDB_DATABASE=hrs_db \
-  mongo
+  mongo:latest
 ```
 
-2. Verify MongoDB Setup
-
-Once the container is running, you can connect to the database via a MongoDB client or the command line to verify the setup:
-
-```bash
-docker exec -it mongodb mongo -u root -p root --authenticationDatabase admin
-```
-
-3. Install Dependencies
+2. Install Dependencies
 
 ```
 cd hrs_client
@@ -65,7 +57,7 @@ pnpm install && pnpm run start
 
 You can access the application at `localhost:5173`. The sign-up link is available at the bottom right corner of the login page, or you can directly visit `localhost:5173/sign-up`. Upon successful registration, you will be redirected to the home page.
 
-4. Create an Employee Account
+3. Create an Employee Account
 
 Since there’s no registration interface for employees, you’ll need to manually create an employee account.
 
@@ -77,5 +69,4 @@ curl -X POST localhost:3000/graphql \
 }'
 ```
 
-- phoneNumber: 888
-- password: 888
+You can use `phone number 888` and `password 888` to access the employee interface.
