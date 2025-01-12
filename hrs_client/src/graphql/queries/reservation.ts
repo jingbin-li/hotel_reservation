@@ -1,33 +1,5 @@
 import { gql } from "@apollo/client";
 
-const parType = `
-      $user_id: String!
-      $contactName: String!
-      $contactNumber: String!
-      $resDate: String!
-      $resTime: String!
-      $guestNum: Float!
-      $specReq: String!
-    `;
-const resGqlBody = `{
-      user_id: $user_id
-      contactName: $contactName
-      contactNumber: $contactNumber
-      resDate: $resDate
-      resTime: $resTime
-      guestNum: $guestNum
-      specReq: $specReq
-    }`;
-
-const resDataBody = ` _id
-    user_id
-    contactName
-    contactNumber
-    resDate
-    resTime
-    guestNum
-    specReq`;
-
 export const CREATE_RES = gql`
   mutation CreateRes(
     $user_id: String!

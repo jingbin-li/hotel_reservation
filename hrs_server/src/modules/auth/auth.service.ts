@@ -1,5 +1,5 @@
 import { cryptoConstants, jwtConstants } from '@/common/constants/constants';
-import { INVALID_USER_EXCEPTION } from '@/common/exceptions/InvalidUser.exception';
+import { INVALID_USER_EXCEPTION } from '@/common/exceptions/invalidUser.exception';
 import {
   HttpException,
   Injectable,

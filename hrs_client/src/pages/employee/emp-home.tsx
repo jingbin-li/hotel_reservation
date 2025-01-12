@@ -55,7 +55,7 @@ function EmpHome() {
         console.log(data);
         setResInfo(data);
       })
-      .catch((error) => {
+      .catch(() => {
         // alert("Error");
       });
   }, []);

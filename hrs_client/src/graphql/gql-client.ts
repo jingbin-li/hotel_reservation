@@ -8,6 +8,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 
+const graphqlUri = import.meta.env.graphqlUri || "http://localhost:3000/graphql";
 export class GqlClient {
   private static client: ApolloClient<NormalizedCacheObject>;
 
@@ -17,7 +18,7 @@ export class GqlClient {
     }
 
     const httpLink = createHttpLink({
-      uri: "http://localhost:3000/graphql",
+      uri: graphqlUri
     });
 
     const errorLink = onError(({ graphQLErrors }) => {

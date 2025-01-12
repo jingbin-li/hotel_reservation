@@ -1,0 +1,50 @@
+version: '1.0'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    environment: 
+      - graphqlUri=http://backend:3000/graphql
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://root:root@mongodb:27017/hrs_db?authSource=admin
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - frontend
+
+  mongodb:
+    image: mongo:latest         # 使用官方 MongoDB 镜像
+    container_name: mongodb     # 设置容器名称为 mongodb
+    ports:
+      - "27017:27017"           # 映射 MongoDB 默认端口
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root       # 设置 MongoDB root 用户名
+      - MONGO_INITDB_ROOT_PASSWORD=root       # 设置 MongoDB root 密码
+      - MONGO_INITDB_DATABASE=hrs_db         # 设置 MongoDB 初始化数据库名称
+    volumes:
+      - mongodb-data:/data/db   # 数据持久化存储
+    networks:
+      - app-network              # 连接到自定义网络
+
+volumes:
+  mongodb-data:                # 用于持久化 MongoDB 数据
+
+networks:
+  app-network:
+    driver: bridge

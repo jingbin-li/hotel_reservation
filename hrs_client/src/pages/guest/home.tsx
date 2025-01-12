@@ -1,23 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMutation, useQuery } from "@apollo/client";
-import { InfoOutlined } from "@mui/icons-material";
 import {
-  Box,
-  Button,
   Card,
   CssBaseline,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
   Sheet,
-  Textarea,
-  Typography,
+  Typography
 } from "@mui/joy";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import NumericFormatAdapter from "../../components/numeric-format-adapter";
+import ReservationForm from "../../components/res-form";
 import {
   CREATE_RES,
   DELETE_RES,
@@ -25,7 +17,6 @@ import {
 } from "../../graphql/queries/reservation";
 import { IReservation } from "../../interface/reservation.interface";
 import { RootState } from "../../store/store";
-import ReservationForm from "../../components/res-form";
 
 export default function BasicTable() {
   const defaultResInfo = {
@@ -37,7 +28,7 @@ export default function BasicTable() {
     guestNum: 0,
     specReq: "",
   };
-  const [createRes, { data: createResData, error: c_error }] = useMutation<{
+  const [createRes, { data: createResData,  }] = useMutation<{
     createRes: IReservation;
   }>(CREATE_RES);
   const [deleteRes, { data: deleteResData, error: d_error }] = useMutation<{
@@ -45,7 +36,7 @@ export default function BasicTable() {
   }>(DELETE_RES);
 
   const user = useSelector((state: RootState) => state.user).user;
-  const { data, error: r_error } = useQuery<{ getRes: IReservation }>(GET_RES, {
+  const { data, } = useQuery<{ getRes: IReservation }>(GET_RES, {
     variables: {
       id: user.id,
     },

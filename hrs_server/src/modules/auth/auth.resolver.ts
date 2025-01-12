@@ -3,8 +3,7 @@ import { Public } from 'src/common/decorators/no-auth.decorator';
 import { UserInfo } from '../users/dtos/userInfo.dto';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
-import { Auth } from './models/Auth.model';
-import { HttpException, HttpStatus, UseFilters } from '@nestjs/common';
+import { Auth } from './models/auth.model';
 
 @Resolver()
 export class AuthResolver {

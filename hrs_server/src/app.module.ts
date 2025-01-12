@@ -14,6 +14,8 @@ import { GuestModule } from './modules/guest/guest.module';
 import { UsersModule } from './modules/users/users.module';
 import { RolesGuard } from './common/gql-auth-guard/role-guerd';
 
+const mongoUri = process.env.MONGO_URI || 'mongodb://root:root@127.0.0.1:27017/hrs_db?authSource=admin'
+
 @Module({
   imports: [
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
@@ -30,7 +32,7 @@ import { RolesGuard } from './common/gql-auth-guard/role-guerd';
       inject: [AuthService],
     }),
     MongooseModule.forRoot(
-      'mongodb://root:root@127.0.0.1:27017/hrs_db?authSource=admin',
+      mongoUri,
     ),
     AuthModule,
     GuestModule,

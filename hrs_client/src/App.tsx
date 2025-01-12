@@ -6,7 +6,7 @@ import createRoutes from "./routes/router";
 import { RootState } from "./store/store";
 
 function App() {
-  const { mode, setMode } = useColorScheme();
+  const { setMode } = useColorScheme();
   setMode("light");
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
