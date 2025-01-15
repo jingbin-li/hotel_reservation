@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     environment: 
-      - graphqlUri=http://backend:3000/graphql
+      - VITE_BASE_URL=http://43.163.103.133
     ports:
       - "80:80"
     volumes:
