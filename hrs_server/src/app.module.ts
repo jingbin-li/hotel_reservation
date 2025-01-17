@@ -13,11 +13,14 @@ import { EmployeeModule } from './modules/employee/employee.module';
 import { GuestModule } from './modules/guest/guest.module';
 import { UsersModule } from './modules/users/users.module';
 import { RolesGuard } from './common/gql-auth-guard/role-guerd';
-
-const mongoUri = process.env.MONGO_URI || 'mongodb://root:root@127.0.0.1:27017/hrs_db?authSource=admin'
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
+      isGlobal: true
+    }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       imports: [AuthModule],
@@ -32,7 +35,7 @@ const mongoUri = process.env.MONGO_URI || 'mongodb://root:root@127.0.0.1:27017/h
       inject: [AuthService],
     }),
     MongooseModule.forRoot(
-      mongoUri,
+      process.env.MONGO_URI,
     ),
     AuthModule,
     GuestModule,
