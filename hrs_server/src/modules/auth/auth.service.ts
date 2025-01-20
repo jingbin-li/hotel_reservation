@@ -67,14 +67,14 @@ export class AuthService {
 
   public async getPayload(token: string) {
     const payload = await this.jwtService.verifyAsync(token, {
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET,
     });
 
     return payload;
   }
 
   private async cryptoAccount(pwd: string) {
-    const hamc = createHmac('sha256', cryptoConstants.secret);
+    const hamc = createHmac('sha256', process.env.CRYPTO_SECRET);
     hamc.update(pwd);
 
     return hamc.digest('hex');
@@ -87,7 +87,9 @@ export class AuthService {
   ) {
     const payload = { sub: userId, username, role };
 
-    return this.jwtService.signAsync(payload);
+    return this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET,
+    });
   }
 
   private async checkAccount(phoneNumber: string, pwd: string) {

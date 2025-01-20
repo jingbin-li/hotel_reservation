@@ -35,7 +35,7 @@ export class GqlAuthGuardGuard implements CanActivate {
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstants.secret,
+        secret: process.env.JWT_SECRET,
       });
 
       request['user'] = payload;

@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     environment: 
-      - graphqlUri=http://backend:3000/graphql
+      - VITE_BASE_URL=http://43.163.103.133
     ports:
       - "80:80"
     volumes:
@@ -20,7 +20,6 @@ services:
       dockerfile: Dockerfile.backend
     environment:
       - NODE_ENV=production
-      - MONGO_URI=mongodb://root:root@mongodb:27017/hrs_db?authSource=admin
     ports:
       - "3000:3000"
     networks:
