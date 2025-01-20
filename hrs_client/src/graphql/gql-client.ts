@@ -22,25 +22,35 @@ export class GqlClient {
     });
 
     const errorLink = onError(({ graphQLErrors }) => {
-      console.log(graphQLErrors);
-      const deniedError = graphQLErrors?.find(
-        (x) => x.message === "Access denied"
-      );
-      if (deniedError) {
-        alert("Access denied");
-      }
+      const errorMessages = [
+        { message: "Access denied", alert: "Access denied" },
+        { message: "Unauthorized", alert: "Unauthorized" },
+        {
+          message: "Context creation failed: jwt expired",
+          alert: "JWT expired",
+        },
+      ];
 
-      const unauthorized = graphQLErrors?.find(
-        (x) => x.message === "Unauthorized"
+      const error = graphQLErrors?.find((error) =>
+        errorMessages.some((errMsg) => errMsg.message === error.message)
       );
 
-      if (unauthorized) {
-        alert("Unauthorized");
+      if (error) {
+        const matchedError = errorMessages.find(
+          (errMsg) => errMsg.message === error.message
+        );
+        if (matchedError) {
+          alert(matchedError.alert); 
+          window.location.href = `/login`;
+        }
       }
     });
 
     const authLink = setContext((_, { headers }) => {
-      const token = localStorage.getItem("access_token");
+      const token = ["/login", "/sign-up"].includes(window.location.pathname)
+        ? null
+        : localStorage.getItem("access_token");
+
       return {
         headers: {
           ...headers,
