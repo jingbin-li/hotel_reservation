@@ -12,7 +12,13 @@ RUN pnpm install
 
 # 复制源代码并进行构建
 COPY /hrs_client /app
-RUN pnpm run build
+
+# 设置环境变量模式
+ARG MODE
+ENV VITE_MODE=$MODE
+
+# 构建前端项目
+RUN npm run build -- --mode $VITE_MODE
 RUN ls -la /app
 
 # 使用 Nginx 镜像来托管前端应用

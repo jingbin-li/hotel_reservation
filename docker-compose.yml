@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    environment:
-      - NODE_ENV=production
+      args:
+        MODE: production
     ports:
       - "80:80"
     volumes:

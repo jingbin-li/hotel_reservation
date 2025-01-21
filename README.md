@@ -77,14 +77,9 @@ curl -X POST localhost:3000/graphql \
 
 You can use `phone number 888` and `password 888` to access the employee interface.
 ### Docker installation
-1. Ensure the following environment variable is set:
+1. In the `hrs_client/.env.production` file, make sure the following environment variable is set:
 ```
- frontend:
-    environment:
-      - NODE_ENV=development
- backend:
-    environment:
-      - NODE_ENV=development
+VITE_BASE_URL=http://localhost:3000
 ```
 2. Navigate to the project directory and start Docker Compose:
 ```
