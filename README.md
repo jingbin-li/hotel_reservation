@@ -1,5 +1,8 @@
 # Hotel Reservation System (HRS)
 
+Preview online  
+🏡[Hotel reservation](http://43.163.103.133/)
+
 Project Overview
 
 - hrs_client
@@ -33,7 +36,7 @@ In a reservation system, certain operations can be time-consuming or require int
 ## Installation
 
 Before starting, ensure your Node.js version is v22.0.0+ and that you have `pnpm` installed. Docker is also required. Since the .env file is not configured, please avoid changing the database `username` and `password`.
-
+### Local installation
 1. Install MongoDB
 
 ```bash
@@ -73,3 +76,19 @@ curl -X POST localhost:3000/graphql \
 ```
 
 You can use `phone number 888` and `password 888` to access the employee interface.
+### Docker installation
+1. Ensure the following environment variable is set:
+```
+ frontend:
+    environment:
+      - NODE_ENV=development
+ backend:
+    environment:
+      - NODE_ENV=development
+```
+2. Navigate to the project directory and start Docker Compose:
+```
+cd hotel_reservation
+docker compose up --build
+```
+3. Finally, execute the third step of the local installation to add the admin user.

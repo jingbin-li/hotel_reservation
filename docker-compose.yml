@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    environment: 
-      - VITE_BASE_URL=http://43.163.103.133
+    environment:
+      - NODE_ENV=production
     ports:
       - "80:80"
     volumes:
