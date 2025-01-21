@@ -86,4 +86,6 @@ VITE_BASE_URL=http://localhost:3000
 cd hotel_reservation
 docker compose up --build
 ```
-3. Finally, execute the third step of the local installation to add the admin user.
+3. Finally, execute the third step of the `Local installation` to add the admin user.
+
+Since the frontend is bound to port `80` during the Docker build, you can access the page by visiting `localhost`.
