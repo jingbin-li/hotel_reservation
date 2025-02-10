@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GuestDB } from './db';
 import { ReservationDto } from './dtos/reservation.dto';
+import { RESERVATION_STATUS } from '@/common/enums/status';
 
 @Injectable()
 export class GuestService {
@@ -30,16 +31,16 @@ export class GuestService {
     return { ...res, _id: raw._id, user_id: toSaved.user_id };
   }
 
-  async updateRes(id: string, res: ReservationDto) {
+  async updateRes(id: string, res: Partial<ReservationDto>) {
     const result = await this.db.update(id, res);
 
     return result.acknowledged;
   }
 
   async deleteRes(id: string) {
-    const result = await this.db.delete(id);
-
-    return result.acknowledged;
+    return this.updateRes(id, {
+      reservationStatus: RESERVATION_STATUS.CANCELLED,
+    });
   }
 
   async getRes(id: string) {

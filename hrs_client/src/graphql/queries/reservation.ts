@@ -9,6 +9,7 @@ export const CREATE_RES = gql`
     $resTime: String!
     $guestNum: Float!
     $specReq: String!
+    $reservationStatus: Float!
   ) {
     createRes(
       reservationDto: {
@@ -19,6 +20,7 @@ export const CREATE_RES = gql`
         resTime: $resTime
         guestNum: $guestNum
         specReq: $specReq
+        reservationStatus: $reservationStatus
       }
     ) {
       _id
@@ -29,6 +31,7 @@ export const CREATE_RES = gql`
       resTime
       guestNum
       specReq
+      reservationStatus
     }
   }
 `;
@@ -43,6 +46,7 @@ export const UPDATE_RES = gql`
     $resTime: String!
     $guestNum: Float!
     $specReq: String!
+    $reservationStatus: Float!
   ) {
     updateRes(
       id: $id
@@ -54,6 +58,7 @@ export const UPDATE_RES = gql`
         resTime: $resTime
         guestNum: $guestNum
         specReq: $specReq
+        reservationStatus: $reservationStatus
       }
     )
   }
@@ -70,12 +75,14 @@ export const GET_RES = gql`
     getRes {
       _id
       user_id
+      user_name
       contactName
       contactNumber
       resDate
       resTime
       guestNum
       specReq
+      reservationStatus
     }
   }
 `;

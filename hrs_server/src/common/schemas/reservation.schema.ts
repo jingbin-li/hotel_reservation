@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { RESERVATION_STATUS } from '../enums/status';
 
 export type ReservationDocument = HydratedDocument<Reservation>;
 
@@ -31,6 +32,9 @@ export class Reservation {
 
   @Prop()
   role: string;
+
+  @Prop()
+  reservationStatus: RESERVATION_STATUS;
 }
 
 export const ReservationSchema = SchemaFactory.createForClass(Reservation);

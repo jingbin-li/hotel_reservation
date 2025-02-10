@@ -12,19 +12,13 @@ import { useCallback, useEffect, useState } from "react";
 import ReservationForm from "../../components/res-form";
 import { GET_ALL_RES } from "../../graphql/queries/reservation";
 import { IReservation } from "../../interface/reservation.interface";
+import axios from "axios";
+import { defaultResInfo } from "../../common/model";
 
 function EmpHome() {
   const [resInfo, setResInfo] = useState(new Array<IReservation>());
   const { data } = useQuery<{ getAllRes: IReservation[] }>(GET_ALL_RES);
-  const [currSelected, setCurrSelected] = useState({
-    _id: "",
-    contactName: "",
-    contactNumber: "",
-    resDate: "",
-    resTime: "",
-    guestNum: 0,
-    specReq: "",
-  });
+  const [currSelected, setCurrSelected] = useState(defaultResInfo);
   const [beforeNow, setBeforeNow] = useState(false);
   const rsvDateTimeValidation = useCallback(() => {
     const target = `${currSelected.resDate} ${currSelected.resTime}`;
@@ -60,8 +54,21 @@ function EmpHome() {
       });
   }, []);
 
-  const handleSubmit = () => {};
-  const handleReset = () => {};
+  const handleSubmit = async () => {
+    try {
+      await axios.put("/employee/reservations/update", currSelected);
+
+      alert("Success");
+    } catch (error) {
+      alert(`Error: ${JSON.stringify(error)}`);
+    }
+  };
+  const handleReset = () => {
+    {
+      const { _id } = currSelected;
+      setCurrSelected({ ...defaultResInfo, _id });
+    }
+  };
   const handleDeleteSubmit = () => {};
   return (
     <Sheet sx={{ my: 2, mx: 3 }}>
@@ -118,6 +125,7 @@ function EmpHome() {
 
         <Card sx={{ flex: "0 0 20%", marginLeft: 2 }}>
           <ReservationForm
+            formType="emp"
             resInfo={currSelected}
             setResInfo={setCurrSelected}
             beforeNow={beforeNow}

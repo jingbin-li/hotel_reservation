@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ReservationDto } from './dtos/reservation.dto';
 import { IDeleteResult } from '@/common/interface/delete-result';
+import { RESERVATION_STATUS } from '@/common/enums/status';
 @Injectable()
 export class GuestDB {
   constructor(
@@ -17,7 +18,7 @@ export class GuestDB {
     return createRes.save();
   }
 
-  update(id: string, res: ReservationDto) {
+  update(id: string, res: Partial<ReservationDto>) {
     console.log(res);
     return this.reservationModel.updateOne({ _id: id || null }, { $set: res });
   }
@@ -27,6 +28,8 @@ export class GuestDB {
   }
 
   findByUserId(id: string) {
-    return this.reservationModel.findOne({ user_id: id });
+    return this.reservationModel.findOne({
+      user_id: id,
+    });
   }
 }

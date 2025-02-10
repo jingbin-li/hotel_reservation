@@ -16,4 +16,15 @@ export interface IReservation {
   guestNum: number;
 
   specReq: string;
+
+  reservationStatus: RESERVATION_STATUS;
+}
+
+export enum RESERVATION_STATUS {
+  "PENDING",
+  "CONFIRMED",
+  "COMPLETED",
+  "CANCELLED",
+  "FAILED",
+  "EMPTY",
 }

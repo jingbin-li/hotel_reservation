@@ -1,4 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { RESERVATION_STATUS } from '../enums/status';
 
 @ObjectType()
 export class Reservation {
@@ -28,4 +29,7 @@ export class Reservation {
 
   @Field({ nullable: true })
   specReq: string = '';
+
+  @Field()
+  reservationStatus: RESERVATION_STATUS = RESERVATION_STATUS.PENDING;
 }

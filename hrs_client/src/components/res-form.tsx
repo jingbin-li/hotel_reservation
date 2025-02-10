@@ -13,29 +13,24 @@ import {
 import { InfoOutlined } from "@mui/icons-material";
 import dayjs from "dayjs";
 import NumericFormatAdapter from "./numeric-format-adapter";
-
-interface IResInfo {
-  _id: string;
-  contactName: string;
-  contactNumber: string;
-  resDate: string;
-  resTime: string;
-  guestNum: number;
-  specReq: string;
-}
+import { IReservation } from "../interface/reservation.interface";
+import ReservationStatus from "./reservation-status";
 
 interface ReservationFormProps {
-  resInfo: IResInfo;
-  setResInfo: React.Dispatch<React.SetStateAction<IResInfo>>;
+  formType: "emp" | "guest";
+  resInfo: IReservation;
+  setResInfo: React.Dispatch<React.SetStateAction<IReservation>>;
   userId?: string;
   beforeNow: boolean;
   rsvDateTimeValidation: () => void;
   onSubmit: () => void;
   onReset: () => void;
   onDeleteRes: () => void;
+  completeRes?: () => void;
 }
 
 const ReservationForm: React.FC<ReservationFormProps> = ({
+  formType,
   resInfo,
   setResInfo,
   beforeNow,
@@ -43,8 +38,10 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
   onSubmit,
   onReset,
   onDeleteRes,
+  completeRes,
 }) => {
   const sx = { py: 1 };
+
   return (
     <>
       <form
@@ -162,7 +159,14 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
       </form>
 
       <Card variant="soft">
-        <Typography level="h2">Your Reservation</Typography>
+        <Typography level="h2">
+          <div className="flex">
+            <span>Your Reservation</span>
+            <ReservationStatus
+              resStatus={resInfo.reservationStatus}
+            ></ReservationStatus>
+          </div>
+        </Typography>
         <Box>
           <strong>Reservation ID:</strong> {resInfo?._id}
         </Box>
@@ -185,6 +189,21 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
           <strong>Special Requests:</strong> {resInfo?.specReq}
         </Box>
         <Box>
+          {formType === "emp" && (
+            <Button
+              sx={{
+                my: 2,
+              }}
+              color="primary"
+              onClick={() => {
+                console.log(resInfo);
+                if (!completeRes) return;
+                completeRes();
+              }}
+            >
+              Complete Reservation
+            </Button>
+          )}
           <Button
             sx={{
               my: 2,
