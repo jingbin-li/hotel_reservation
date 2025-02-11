@@ -115,7 +115,7 @@ function EmpHome() {
             <thead>
               <tr>
                 <th style={{ width: "3%" }}></th>
-                <th>Reservation ID</th>
+                <th>Reservation status</th>
                 <th>Contact Name</th>
                 <th>Contact Number</th>
                 <th>Reservation Date</th>
@@ -142,7 +142,7 @@ function EmpHome() {
                       />
                     </th>
                     <td className="text-container" title={row._id}>
-                      {row._id}
+                      {RESERVATION_STATUS[row.reservationStatus]}
                     </td>
                     <td>{row.contactName}</td>
                     <td>{row.contactNumber}</td>
