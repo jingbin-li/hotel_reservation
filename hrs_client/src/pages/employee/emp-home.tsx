@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   Card,
   Checkbox,
@@ -9,15 +9,19 @@ import {
 } from "@mui/joy";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
-import ReservationForm from "../../components/res-form";
-import { GET_ALL_RES } from "../../graphql/queries/reservation";
-import { IReservation, RESERVATION_STATUS } from "../../interface/reservation.interface";
-import axios from "axios";
 import { defaultResInfo } from "../../common/model";
+import ReservationForm from "../../components/res-form";
+import { CREATE_RES, GET_ALL_RES, UPDATE_RES } from "../../graphql/queries/reservation";
+import {
+  IReservation,
+  RESERVATION_STATUS,
+} from "../../interface/reservation.interface";
 
 function EmpHome() {
   const [resInfo, setResInfo] = useState(new Array<IReservation>());
-  const { data } = useQuery<{ getAllRes: IReservation[] }>(GET_ALL_RES);
+  const { data, refetch } = useQuery<{ getAllRes: IReservation[] }>(
+    GET_ALL_RES
+  );
   const [currSelected, setCurrSelected] = useState(defaultResInfo);
   const [beforeNow, setBeforeNow] = useState(false);
   const rsvDateTimeValidation = useCallback(() => {
@@ -33,39 +37,52 @@ function EmpHome() {
   }, [currSelected]);
   useEffect(() => {
     setResInfo(data?.getAllRes || []);
+    console.log(currSelected);
+    console.log(data)
+    const newData = data?.getAllRes.find(x => x._id === currSelected._id);
+    if(newData) {
+      setCurrSelected(newData);
+    }
   }, [data]);
 
+  const [updateRes] = useMutation<{
+    updateRes: boolean;
+  }>(UPDATE_RES, {
+    onCompleted: () => {
+      alert("Success");
+      refetch();
+    },
+    onError: () => {
+      alert("Error")
+    }
+  });
 
-  const handleChangeStatus = (status: RESERVATION_STATUS) => {
-    console.log(status)
-  }
-
-  useEffect(() => {
-    // 调用API获取数据
-    fetch("/employee/reservations")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setResInfo(data);
-      })
-      .catch(() => {
-        // alert("Error");
-      });
-  }, []);
+  // useEffect(() => {
+  //   // 调用API获取数据
+  //   fetch("/employee/reservations")
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setResInfo(data);
+  //     })
+  //     .catch(() => {
+  //       // alert("Error");
+  //     });
+  // }, []);
 
   const handleSubmit = async () => {
-    try {
-      await axios.put("/employee/reservations/update", currSelected);
-
-      alert("Success");
-    } catch (error) {
-      alert(`Error: ${JSON.stringify(error)}`);
-    }
+    updateRes({
+      variables: {
+        id: currSelected._id,
+        ...currSelected,
+        reservationStatus: RESERVATION_STATUS.PENDING
+      },
+    });
   };
   const handleReset = () => {
     {
@@ -73,6 +90,17 @@ function EmpHome() {
       setCurrSelected({ ...defaultResInfo, _id });
     }
   };
+
+  const handleChangeStatus = (status: RESERVATION_STATUS) => {
+    updateRes({
+      variables: {
+        id: currSelected._id,
+        ...currSelected,
+        reservationStatus: status
+      },
+    });
+  };
+
   const handleDeleteSubmit = () => {};
   return (
     <Sheet sx={{ my: 2, mx: 3 }}>
@@ -113,7 +141,9 @@ function EmpHome() {
                         sx={{ verticalAlign: "top" }}
                       />
                     </th>
-                    <td className="text-container" title={row._id}>{row._id}</td>
+                    <td className="text-container" title={row._id}>
+                      {row._id}
+                    </td>
                     <td>{row.contactName}</td>
                     <td>{row.contactNumber}</td>
                     <td>{row.resDate}</td>
@@ -134,10 +164,10 @@ function EmpHome() {
             setResInfo={setCurrSelected}
             beforeNow={beforeNow}
             rsvDateTimeValidation={rsvDateTimeValidation}
-            onSubmit={handleSubmit}
             onReset={handleReset}
             onDeleteRes={handleDeleteSubmit}
             onChangeStatus={handleChangeStatus}
+            onSubmit={handleSubmit}
           />
         </Card>
       </div>

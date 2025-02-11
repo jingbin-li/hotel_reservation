@@ -19,31 +19,34 @@ export class GqlAuthGuardGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    if (isPublic) {
-      return true;
-    }
-
-    const request = GqlExecutionContext.create(context).getContext().req;
-
-    const token = this.extractTokenFromHeader(request);
-    if (!token) {
-      throw new UnauthorizedException();
-    }
     try {
+      const isPublic = this.reflector.getAllAndOverride<boolean>(
+        IS_PUBLIC_KEY,
+        [context.getHandler(), context.getClass()],
+      );
+      if (isPublic) {
+        return true;
+      }
+
+      const request = GqlExecutionContext.create(context).getContext().req;
+
+      const token = this.extractTokenFromHeader(request);
+      if (!token) {
+        return false;
+      }
+
       const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
 
       request['user'] = payload;
+
+      return true;
     } catch (err) {
       console.error(`[GqlAuthGuard] Authentication failed ${err.message}`);
-      throw new UnauthorizedException();
+
+      return false;
     }
-    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {

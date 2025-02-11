@@ -26,7 +26,7 @@ interface ReservationFormProps {
   userId?: string;
   beforeNow: boolean;
   rsvDateTimeValidation: () => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   onReset: () => void;
   onDeleteRes: () => void;
   onChangeStatus?: (status: RESERVATION_STATUS) => void;
@@ -51,7 +51,9 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
         onSubmit={(e) => {
           e.preventDefault();
           if (beforeNow) return;
-          onSubmit();
+          if (onSubmit) {
+            onSubmit();
+          }
         }}
       >
         <FormControl sx={sx} required>
@@ -199,9 +201,11 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
             }}
             color="danger"
             onClick={() => {
-              formType === "emp" && onChangeStatus
-                ? onChangeStatus(RESERVATION_STATUS.CANCELLED)
-                : onDeleteRes();
+              if (formType === "emp" && onChangeStatus) {
+                onChangeStatus(RESERVATION_STATUS.CANCELLED);
+              } else {
+                onDeleteRes();
+              }
             }}
           >
             Cancel
@@ -256,8 +260,3 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
 };
 
 export default ReservationForm;
-function createTheme(arg0: {
-  palette: { custom: { main: string; contrastText: string } };
-}) {
-  throw new Error("Function not implemented.");
-}

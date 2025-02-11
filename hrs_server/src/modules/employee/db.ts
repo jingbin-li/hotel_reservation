@@ -2,7 +2,7 @@ import { Reservation } from '@/common/schemas/reservation.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IDeleteResult } from '@/common/interface/delete-result';
+import { ReservationDto } from '../guest/dtos/reservation.dto';
 @Injectable()
 export class EmployeeDB {
   constructor(
@@ -10,9 +10,10 @@ export class EmployeeDB {
   ) {}
 
   async getReservations() {
-    const res = await this.reservationModel.find();
-    console.log(res);
+    return this.reservationModel.find();
+  }
 
-    return res;
+  async updateReservations(id: string, body: Partial<ReservationDto>) {
+    return this.reservationModel.updateOne({ _id: id || null }, { $set: body });
   }
 }

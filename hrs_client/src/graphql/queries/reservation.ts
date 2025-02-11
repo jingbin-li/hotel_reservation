@@ -38,19 +38,18 @@ export const CREATE_RES = gql`
 
 export const UPDATE_RES = gql`
   mutation UpdateRes(
-    $id: String!
-    $user_id: String!
-    $contactName: String!
-    $contactNumber: String!
-    $resDate: String!
-    $resTime: String!
-    $guestNum: Float!
-    $specReq: String!
-    $reservationStatus: Float!
-  ) {
+    $id: String!,
+    $user_id: String!,
+    $contactName: String!,
+    $contactNumber: String!,
+    $resDate: String!,
+    $resTime: String!,
+    $guestNum: Float!,
+    $specReq: String!,
+    $reservationStatus: Float!) {
     updateRes(
-      id: $id
-      reservationDto: {
+    id: $id, 
+    reservationDto: {
         user_id: $user_id
         contactName: $contactName
         contactNumber: $contactNumber
@@ -59,8 +58,7 @@ export const UPDATE_RES = gql`
         guestNum: $guestNum
         specReq: $specReq
         reservationStatus: $reservationStatus
-      }
-    )
+      })
   }
 `;
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { RESERVATION_STATUS } from "../interface/reservation.interface";
 
 interface ReservationStatusProps {

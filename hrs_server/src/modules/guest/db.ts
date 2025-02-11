@@ -4,7 +4,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ReservationDto } from './dtos/reservation.dto';
 import { IDeleteResult } from '@/common/interface/delete-result';
-import { RESERVATION_STATUS } from '@/common/enums/status';
 @Injectable()
 export class GuestDB {
   constructor(
