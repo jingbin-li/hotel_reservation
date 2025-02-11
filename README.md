@@ -14,8 +14,6 @@
 
 ---
 
----
-
 Project Overview
 
 - hrs_client
