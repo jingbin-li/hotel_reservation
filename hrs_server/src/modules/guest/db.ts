@@ -17,7 +17,7 @@ export class GuestDB {
     return createRes.save();
   }
 
-  update(id: string, res: ReservationDto) {
+  update(id: string, res: Partial<ReservationDto>) {
     console.log(res);
     return this.reservationModel.updateOne({ _id: id || null }, { $set: res });
   }
@@ -27,6 +27,8 @@ export class GuestDB {
   }
 
   findByUserId(id: string) {
-    return this.reservationModel.findOne({ user_id: id });
+    return this.reservationModel.findOne({
+      user_id: id,
+    });
   }
 }

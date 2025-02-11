@@ -27,3 +27,52 @@ h1{
 .theme-container {
   display: flex;
 }
+
+.reservation-status {
+  display: flex;
+  gap: 1rem;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.status .icon {
+  margin-right: 8px;
+}
+
+.status.pending {
+  background-color: #007bff; 
+}
+
+.status.confirmed {
+  background-color: #28a745;
+}
+
+.status.completed {
+  background-color: #A0522D; 
+}
+
+.status.canceled {
+  background-color: #dc3545;
+}
+
+.flex {
+  display: flex;
+  gap: 10px;
+}
+.text-container {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.completed-color {
+  background-color: #6A0DAD;
+}

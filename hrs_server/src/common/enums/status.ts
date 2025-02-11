@@ -1,0 +1,8 @@
+export enum RESERVATION_STATUS {
+  'PENDING',
+  'CONFIRMED',
+  'COMPLETED',
+  'CANCELLED',
+  'FAILED',
+  'EMPTY',
+}

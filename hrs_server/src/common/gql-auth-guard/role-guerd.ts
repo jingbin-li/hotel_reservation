@@ -15,8 +15,10 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
 
+    console.log(roles)
+
     const gqlContext = GqlExecutionContext.create(context);
-    const { user } = gqlContext.getContext(); // 从 GraphQL 上下文中获取用户信息
+    const { user } = gqlContext.getContext();
 
     if (!user || !roles.includes(user.role)) {
       throw new UnauthorizedException('Access denied');

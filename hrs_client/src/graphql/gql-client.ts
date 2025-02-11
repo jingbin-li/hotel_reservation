@@ -18,16 +18,21 @@ export class GqlClient {
     }
 
     const httpLink = createHttpLink({
-      uri: `${BASE_URL}/graphql`
+      uri: `${BASE_URL}/graphql`,
     });
 
     const errorLink = onError(({ graphQLErrors }) => {
+      console.log(graphQLErrors);
       const errorMessages = [
         { message: "Access denied", alert: "Access denied" },
         { message: "Unauthorized", alert: "Unauthorized" },
         {
           message: "Context creation failed: jwt expired",
           alert: "JWT expired",
+        },
+        {
+          message: "Context creation failed: invalid signature",
+          alert: "Unauthorized",
         },
       ];
 
@@ -40,9 +45,11 @@ export class GqlClient {
           (errMsg) => errMsg.message === error.message
         );
         if (matchedError) {
-          alert(matchedError.alert); 
+          alert(matchedError.alert);
           window.location.href = `/login`;
         }
+      } else {
+        alert('ERROR')
       }
     });
 

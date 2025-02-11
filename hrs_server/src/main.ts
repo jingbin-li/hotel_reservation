@@ -5,12 +5,15 @@ import { LoggingInterceptor } from './common/interceptors/ logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  process.on('unhandledRejection', (reason, promise) => {
+    console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+  });
   app.useGlobalFilters(new GraphQLExceptionsFilter());
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.enableCors({
-    origin: '*', // 允许的来源
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 允许的HTTP方法
-    credentials: true, // 是否允许发送凭据（如 Cookies 等）
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
 
   await app.listen(3000);

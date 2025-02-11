@@ -19,7 +19,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({
       envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
-      isGlobal: true
+      isGlobal: true,
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -34,9 +34,7 @@ import { ConfigModule } from '@nestjs/config';
       }),
       inject: [AuthService],
     }),
-    MongooseModule.forRoot(
-      process.env.MONGO_URI,
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     AuthModule,
     GuestModule,
     EmployeeModule,

@@ -1,3 +1,4 @@
+import { RESERVATION_STATUS } from '@/common/enums/status';
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
@@ -33,4 +34,7 @@ export class ReservationDto {
 
   @Field()
   specReq: string;
+
+  @Field()
+  reservationStatus: RESERVATION_STATUS;
 }

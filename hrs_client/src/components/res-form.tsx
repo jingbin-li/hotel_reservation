@@ -13,29 +13,27 @@ import {
 import { InfoOutlined } from "@mui/icons-material";
 import dayjs from "dayjs";
 import NumericFormatAdapter from "./numeric-format-adapter";
-
-interface IResInfo {
-  _id: string;
-  contactName: string;
-  contactNumber: string;
-  resDate: string;
-  resTime: string;
-  guestNum: number;
-  specReq: string;
-}
+import {
+  IReservation,
+  RESERVATION_STATUS,
+} from "../interface/reservation.interface";
+import ReservationStatus from "./reservation-status";
 
 interface ReservationFormProps {
-  resInfo: IResInfo;
-  setResInfo: React.Dispatch<React.SetStateAction<IResInfo>>;
+  formType: "emp" | "guest";
+  resInfo: IReservation;
+  setResInfo: React.Dispatch<React.SetStateAction<IReservation>>;
   userId?: string;
   beforeNow: boolean;
   rsvDateTimeValidation: () => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   onReset: () => void;
   onDeleteRes: () => void;
+  onChangeStatus?: (status: RESERVATION_STATUS) => void;
 }
 
 const ReservationForm: React.FC<ReservationFormProps> = ({
+  formType,
   resInfo,
   setResInfo,
   beforeNow,
@@ -43,15 +41,19 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
   onSubmit,
   onReset,
   onDeleteRes,
+  onChangeStatus,
 }) => {
   const sx = { py: 1 };
+
   return (
     <>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           if (beforeNow) return;
-          onSubmit();
+          if (onSubmit) {
+            onSubmit();
+          }
         }}
       >
         <FormControl sx={sx} required>
@@ -154,7 +156,7 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
             my: 2,
             mx: 2,
           }}
-          color="warning"
+          color="neutral"
           onClick={onReset}
         >
           Reset Form
@@ -162,7 +164,14 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
       </form>
 
       <Card variant="soft">
-        <Typography level="h2">Your Reservation</Typography>
+        <Typography level="h2">
+          <div className="flex">
+            <span>Your Reservation</span>
+            <ReservationStatus
+              resStatus={resInfo.reservationStatus}
+            ></ReservationStatus>
+          </div>
+        </Typography>
         <Box>
           <strong>Reservation ID:</strong> {resInfo?._id}
         </Box>
@@ -188,15 +197,62 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
           <Button
             sx={{
               my: 2,
+              mr: 2,
             }}
             color="danger"
             onClick={() => {
-              console.log(resInfo);
-              onDeleteRes();
+              if (formType === "emp" && onChangeStatus) {
+                onChangeStatus(RESERVATION_STATUS.CANCELLED);
+              } else {
+                onDeleteRes();
+              }
             }}
           >
-            Cancel Reservation
+            Cancel
           </Button>
+          {formType === "emp" && (
+            <>
+              <Button
+                sx={{
+                  my: 2,
+                  mr: 2,
+                }}
+                color="primary"
+                onClick={() => {
+                  if (!onChangeStatus) return;
+                  onChangeStatus(RESERVATION_STATUS.PENDING);
+                }}
+              >
+                Pending
+              </Button>
+              <Button
+                sx={{
+                  my: 2,
+                  mr: 2,
+                }}
+                color="success"
+                onClick={() => {
+                  if (!onChangeStatus) return;
+                  onChangeStatus(RESERVATION_STATUS.CONFIRMED);
+                }}
+              >
+                Confirmed
+              </Button>
+              <Button
+                sx={{
+                  my: 2,
+                  mr: 2,
+                }}
+                color="warning"
+                onClick={() => {
+                  if (!onChangeStatus) return;
+                  onChangeStatus(RESERVATION_STATUS.COMPLETED);
+                }}
+              >
+                Complete
+              </Button>
+            </>
+          )}
         </Box>
       </Card>
     </>
