@@ -1,7 +1,20 @@
 # Hotel Reservation System (HRS)
 
-Preview online  
-🏡[Hotel reservation](http://43.163.103.133/)
+🏡 [Hotel reservation](http://43.163.103.133/) - **Online Preview**
+
+### Accounts
+
+- **Employee Account**
+  - 📱 **Phone number**: 888
+  - 🔑 **Password**: 888
+
+- **Guest Account** (You can sign up if you want)
+  - 📱 **Phone number**: 1
+  - 🔑 **Password**: 1
+
+---
+
+---
 
 Project Overview
 
@@ -17,9 +30,9 @@ Project Overview
   1. Guests should able to make reservations.✅
   2. Guests should able to update their reservations.✅
   3. Guests should able to cancel their reservations.✅
-  4. Restaurant employees should able to update reservations.❌
-  5. Restaurant employees should able to mark a reservation as completed or canceled.❌
-  6. Restaurant employees should able to browse all the reservations by date and status.❌
+  4. Restaurant employees should able to update reservations.✅
+  5. Restaurant employees should able to mark a reservation as completed or canceled.✅
+  6. Restaurant employees should able to browse all the reservations by date and status.✅
   7. Restaurant employees should able to check reservation detail.✅
 
 Due to time constraints, the project still has several shortcomings. On the employee side, only the UI and GET API calls have been completed.
