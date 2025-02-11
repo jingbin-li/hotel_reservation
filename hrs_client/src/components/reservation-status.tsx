@@ -24,13 +24,13 @@ const ReservationStatus: React.FC<ReservationStatusProps> = ({ resStatus }) => {
         return {
           className: "completed",
           icon: "✅",
-          text: "Confirmed",
+          text: "Completed",
         };
       case RESERVATION_STATUS.CANCELLED:
         return {
           className: "canceled",
           icon: "❌",
-          text: "Confirmed",
+          text: "Canceled",
         };
       default:
         return null;
