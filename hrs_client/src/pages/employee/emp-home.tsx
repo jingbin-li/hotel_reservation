@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import { defaultResInfo } from "../../common/model";
 import ReservationForm from "../../components/res-form";
-import { CREATE_RES, GET_ALL_RES, UPDATE_RES } from "../../graphql/queries/reservation";
+import { GET_ALL_RES, UPDATE_RES } from "../../graphql/queries/reservation";
 import {
   IReservation,
   RESERVATION_STATUS,
