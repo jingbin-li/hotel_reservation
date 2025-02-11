@@ -98,6 +98,7 @@ export const GET_ALL_RES = gql`
       resTime
       guestNum
       specReq
+      reservationStatus
     }
   }
 `;

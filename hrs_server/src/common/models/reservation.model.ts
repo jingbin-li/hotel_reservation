@@ -30,6 +30,6 @@ export class Reservation {
   @Field({ nullable: true })
   specReq: string = '';
 
-  @Field()
+  @Field({ nullable: true })
   reservationStatus: RESERVATION_STATUS = RESERVATION_STATUS.PENDING;
 }

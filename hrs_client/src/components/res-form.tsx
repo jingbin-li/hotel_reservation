@@ -13,7 +13,10 @@ import {
 import { InfoOutlined } from "@mui/icons-material";
 import dayjs from "dayjs";
 import NumericFormatAdapter from "./numeric-format-adapter";
-import { IReservation } from "../interface/reservation.interface";
+import {
+  IReservation,
+  RESERVATION_STATUS,
+} from "../interface/reservation.interface";
 import ReservationStatus from "./reservation-status";
 
 interface ReservationFormProps {
@@ -26,7 +29,7 @@ interface ReservationFormProps {
   onSubmit: () => void;
   onReset: () => void;
   onDeleteRes: () => void;
-  completeRes?: () => void;
+  onChangeStatus?: (status: RESERVATION_STATUS) => void;
 }
 
 const ReservationForm: React.FC<ReservationFormProps> = ({
@@ -38,7 +41,7 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
   onSubmit,
   onReset,
   onDeleteRes,
-  completeRes,
+  onChangeStatus,
 }) => {
   const sx = { py: 1 };
 
@@ -151,7 +154,7 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
             my: 2,
             mx: 2,
           }}
-          color="warning"
+          color="neutral"
           onClick={onReset}
         >
           Reset Form
@@ -189,33 +192,63 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
           <strong>Special Requests:</strong> {resInfo?.specReq}
         </Box>
         <Box>
-          {formType === "emp" && (
-            <Button
-              sx={{
-                my: 2,
-              }}
-              color="primary"
-              onClick={() => {
-                console.log(resInfo);
-                if (!completeRes) return;
-                completeRes();
-              }}
-            >
-              Complete Reservation
-            </Button>
-          )}
           <Button
             sx={{
               my: 2,
+              mr: 2,
             }}
             color="danger"
             onClick={() => {
-              console.log(resInfo);
-              onDeleteRes();
+              formType === "emp" && onChangeStatus
+                ? onChangeStatus(RESERVATION_STATUS.CANCELLED)
+                : onDeleteRes();
             }}
           >
-            Cancel Reservation
+            Cancel
           </Button>
+          {formType === "emp" && (
+            <>
+              <Button
+                sx={{
+                  my: 2,
+                  mr: 2,
+                }}
+                color="primary"
+                onClick={() => {
+                  if (!onChangeStatus) return;
+                  onChangeStatus(RESERVATION_STATUS.PENDING);
+                }}
+              >
+                Pending
+              </Button>
+              <Button
+                sx={{
+                  my: 2,
+                  mr: 2,
+                }}
+                color="success"
+                onClick={() => {
+                  if (!onChangeStatus) return;
+                  onChangeStatus(RESERVATION_STATUS.CONFIRMED);
+                }}
+              >
+                Confirmed
+              </Button>
+              <Button
+                sx={{
+                  my: 2,
+                  mr: 2,
+                }}
+                color="warning"
+                onClick={() => {
+                  if (!onChangeStatus) return;
+                  onChangeStatus(RESERVATION_STATUS.COMPLETED);
+                }}
+              >
+                Complete
+              </Button>
+            </>
+          )}
         </Box>
       </Card>
     </>
@@ -223,3 +256,8 @@ const ReservationForm: React.FC<ReservationFormProps> = ({
 };
 
 export default ReservationForm;
+function createTheme(arg0: {
+  palette: { custom: { main: string; contrastText: string } };
+}) {
+  throw new Error("Function not implemented.");
+}

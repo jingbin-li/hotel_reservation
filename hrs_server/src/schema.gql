@@ -20,7 +20,7 @@ type Reservation {
   resTime: String!
   guestNum: Float!
   specReq: String
-  reservationStatus: Float!
+  reservationStatus: Float
 }
 
 type Query {

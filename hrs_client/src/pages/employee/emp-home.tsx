@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import ReservationForm from "../../components/res-form";
 import { GET_ALL_RES } from "../../graphql/queries/reservation";
-import { IReservation } from "../../interface/reservation.interface";
+import { IReservation, RESERVATION_STATUS } from "../../interface/reservation.interface";
 import axios from "axios";
 import { defaultResInfo } from "../../common/model";
 
@@ -33,8 +33,12 @@ function EmpHome() {
   }, [currSelected]);
   useEffect(() => {
     setResInfo(data?.getAllRes || []);
-    console.log(data);
   }, [data]);
+
+
+  const handleChangeStatus = (status: RESERVATION_STATUS) => {
+    console.log(status)
+  }
 
   useEffect(() => {
     // 调用API获取数据
@@ -109,7 +113,7 @@ function EmpHome() {
                         sx={{ verticalAlign: "top" }}
                       />
                     </th>
-                    <td>{row._id}</td>
+                    <td className="text-container" title={row._id}>{row._id}</td>
                     <td>{row.contactName}</td>
                     <td>{row.contactNumber}</td>
                     <td>{row.resDate}</td>
@@ -123,7 +127,7 @@ function EmpHome() {
           </Table>
         </Card>
 
-        <Card sx={{ flex: "0 0 20%", marginLeft: 2 }}>
+        <Card sx={{ flex: "0 0 30%", marginLeft: 2 }}>
           <ReservationForm
             formType="emp"
             resInfo={currSelected}
@@ -133,6 +137,7 @@ function EmpHome() {
             onSubmit={handleSubmit}
             onReset={handleReset}
             onDeleteRes={handleDeleteSubmit}
+            onChangeStatus={handleChangeStatus}
           />
         </Card>
       </div>
