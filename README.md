@@ -46,7 +46,8 @@ In a reservation system, certain operations can be time-consuming or require int
 
 ## Installation
 
-Before starting, ensure your Node.js version is v22.0.0+ and that you have `pnpm` installed. Docker is also required. Since the .env file is not configured, please avoid changing the database `username` and `password`.
+Before starting, ensure your Node.js version is v22.0.0+ and that you have `pnpm` installed. Docker is also required. The .env file has been configured, with the default database `username` set to `root` and the `password` to `root`.
+
 ### Local installation
 1. Install MongoDB
 
