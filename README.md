@@ -33,7 +33,7 @@ Project Overview
   6. Restaurant employees should able to browse all the reservations by date and status.✅
   7. Restaurant employees should able to check reservation detail.✅
 
-Due to time constraints, the project still has several shortcomings. On the employee side, only the UI and GET API calls have been completed.
+Due to time constraints, the project still has several shortcomings. The code is not clean enough.
 
 ## Some thoughts (I wanted to implement but haven’t had the time to yet)
 
